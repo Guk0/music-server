@@ -4,4 +4,7 @@ Rails.application.routes.draw do
   resources :playlists_tracks
   resources :groups
   resources :user_groups
+  resources :albums
+  resources :artists
+  resources :tracks
 end

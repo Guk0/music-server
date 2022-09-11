@@ -4,7 +4,12 @@ FactoryBot.define do
   end
 
   factory :group do
-    name { "new group" }
+    name { "name" }
+
+    trait :invalid do
+      name { nil }
+    end
+
     factory :group_with_users do
       transient do
         users_count { 5 }
@@ -18,7 +23,7 @@ FactoryBot.define do
   end
 
   factory :artist do
-    name { "new artist" }
+    name { "artist" }
   end
   
   factory :album do
@@ -28,16 +33,16 @@ FactoryBot.define do
   factory :track do
     artist
     album
-    title { "new track" }
-    artist_name { "new track artist" }
-    album_name { "new track album" }
+    title { "track" }
+    artist_name { "track artist" }
+    album_name { "track album" }
     likes_count { 157 }
   end
 
   factory :playlist do
     for_user
     list_type { "default" }
-    title { "old title" }
+    title { "title" }
 
     trait :for_group do
       association :owner, factory: :group

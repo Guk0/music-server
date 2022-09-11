@@ -62,31 +62,27 @@ RSpec.describe "Playlists", type: :request do
   end
 
   describe "DELETE /playlists/:id" do
-    context "deletes a playlist" do
-      before do
-        @playlist = FactoryBot.create(:playlist)
-      end
+    before do
+      @playlist = FactoryBot.create(:playlist)
+    end
 
-      it "deletes a playlist" do
-        expect {
-          delete playlist_path(id: @playlist.id, owner_type: "user", owner_id: @playlist.owner.id)
-        }.to change(Playlist, :count).by(-1)
-      end
+    it "deletes a playlist" do
+      expect {
+        delete playlist_path(id: @playlist.id, owner_type: "user", owner_id: @playlist.owner.id)
+      }.to change(Playlist, :count).by(-1)
     end
   end
 
   describe "PATCH /playlists/:id" do
-    context "updates a playlist" do
-      before do
-        @playlist = FactoryBot.create(:playlist)
-      end
+    before do
+      @playlist = FactoryBot.create(:playlist)
+    end
 
-      it "updates a playlist" do
-        playlist_params = FactoryBot.attributes_for(:playlist, title: "new title")
-        patch playlist_path(@playlist.id), params: { playlist: playlist_params, owner_type: "user", owner_id: @playlist.owner.id }
+    it "updates a playlist" do
+      playlist_params = FactoryBot.attributes_for(:playlist, title: "new title")
+      patch playlist_path(@playlist.id), params: { playlist: playlist_params, owner_type: "user", owner_id: @playlist.owner.id }
 
-        expect(@playlist.reload.title).to eq("new title")
-      end
+      expect(@playlist.reload.title).to eq("new title")
     end
   end
 end

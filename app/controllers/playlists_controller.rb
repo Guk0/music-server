@@ -24,13 +24,14 @@ class PlaylistsController < ApplicationController
   def destroy
     @playlist.destroy
     render status: 200
-  end  
+  end
 
   private
   def load_owner
     # owner_type이 올바르지 않다면 key_error.
     # owner가 존재하지 않다면 ActiveRecord::RecordNotFound.
     # exception 발생시 json return 함수 필요함.
+    # 로그인을 추가할 시 owner에 대한 추가적인 검증이 필요함.
     @owner = Playlist::PERMITTED_OWNER.fetch(params[:owner_type]&.to_sym).find(params[:owner_id])
   end
 

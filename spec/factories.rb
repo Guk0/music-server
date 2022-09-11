@@ -21,9 +21,14 @@ FactoryBot.define do
   end
 
   factory :my_playlist, class: "Playlist" do
-    owner { User.first }
-    title { "test" }
-    list_type { 0 }
+    owner_type { "User" }
+    owner_id { User.first.id }
+    title { "old title" }
+    list_type { "default" }
+
+    trait :invalid do
+       owner_id { nil }
+    end
   end
 
   factory :my_album, class: "Playlist" do

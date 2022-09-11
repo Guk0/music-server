@@ -1,5 +1,6 @@
 class PlaylistsController < ApplicationController
   before_action :load_owner
+  before_action :load_playlist, only: [:show, :update, :destroy]
 
   def index
     playlists = @owner.playlists.where(list_type: Playlist.list_types.dig(params[:list_type])).page(params[:page]).per(10)
@@ -7,21 +8,36 @@ class PlaylistsController < ApplicationController
   end
   
   def show # tracks과 함께 보여줘야함.
-    playlist = @owner.playlists.find_by(id: params[:id])
-    render json: playlist.to_json
+    render json: @playlist.to_json
   end
 
   def create
-    @owner.playlists.create!(playlist_params)
-    redner json: playlist.to_json
+    playlist = Playlist.create(playlist_params)
+    render json: playlist.to_json
   end
+
+  def update
+    playlist = @playlist.update(playlist_params)
+    render json: playlist.to_json
+  end
+
+  def destroy
+    @playlist.destroy
+    render status: 200
+  end  
 
   private
   def load_owner
-    # owner_type이 Playlist::PERMITTED_OWNER의 key 값에 포함되지 않는다면 key_error를 발생하도록 함.
-    @owner = Playlist::PERMITTED_OWNER.fetch(params[:owner_type]&.to_sym).find_by(id: params[:owner_id])    
+    # owner_type이 올바르지 않다면 key_error.
+    # owner가 존재하지 않다면 ActiveRecord::RecordNotFound.
+    # exception 발생시 json return 함수 필요함.
+    @owner = Playlist::PERMITTED_OWNER.fetch(params[:owner_type]&.to_sym).find(params[:owner_id])
   end
 
+  def load_playlist
+    @playlist = @owner.playlists.find_by(id: params[:id])
+  end
+  
   def playlist_params
     params.require(:playlist).permit(:owner_type, :owner_id, :list_type, :title)
   end

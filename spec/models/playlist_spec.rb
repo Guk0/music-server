@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Playlist, type: :model do
-  let(:mock_playlist) { build(:my_playlist) }
+  let(:mock_playlist) { build(:playlist, owner_id: create(:user).id, owner_type: "User") }
 
   subject { mock_playlist }
 

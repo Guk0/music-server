@@ -1,4 +1,7 @@
 class UserGroupsController < ApplicationController
+  before_action :load_group
+  before_action :load_user_group, only: [:destroy]
+  
   def create
     @group.users << User.find(params[:user_id])
   end
@@ -13,6 +16,6 @@ class UserGroupsController < ApplicationController
   end
 
   def load_user_group
-    @user_group = UserGroup.find(params[:id])
+    @user_group = @group.user_groups.find(params[:id])
   end
 end

@@ -12,7 +12,7 @@ class PlaylistsController < ApplicationController
   end
 
   def create
-    playlist = Playlist.create(playlist_params)
+    playlist = @owner.playlists.create(playlist_params)
     render json: playlist.to_json
   end
 

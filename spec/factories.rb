@@ -1,4 +1,4 @@
-FactoryBot.define do
+FactoryBot.define do  
   factory :user do
     sequence(:email) { |n| "email#{n}@music.com" }
   end
@@ -22,7 +22,7 @@ FactoryBot.define do
 
   factory :my_playlist, class: "Playlist" do
     owner_type { "User" }
-    owner_id { User.first.id }
+    owner_id { create(:user).id }
     title { "old title" }
     list_type { "default" }
 
@@ -32,11 +32,10 @@ FactoryBot.define do
   end
 
   factory :my_album, class: "Playlist" do
-    owner { User.first }
+    owner_type { "User" }
+    owner_id { create(:user).id }
     title { "test" }
-    list_type { 1 }
+    list_type { "my_album" }
   end
 
-  # factory :album2, class: "Album" do
-  # end
 end

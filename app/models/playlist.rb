@@ -1,5 +1,6 @@
 class Playlist < ApplicationRecord
-  PERMITTED_OWNER = {"User": User, "Group": Group}
+  PERMITTED_OWNER = {user: User, group: Group}
+
 
   belongs_to :owner, polymorphic: true
 

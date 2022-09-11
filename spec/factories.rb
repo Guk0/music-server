@@ -3,39 +3,48 @@ FactoryBot.define do
     sequence(:email) { |n| "email#{n}@music.com" }
   end
 
-  factory :artist do
-    name { "test" }
-  end
-  
-  factory :album do
-    artist { Artist.first }
-  end
+  factory :group do
+    name { "new group" }
+    factory :group_with_users do
+      transient do
+        users_count { 5 }
+      end
 
-  factory :track do
-    artist { Artist.first }
-    album { Album.first }
-    title { "test" }
-    artist_name { "test" }
-    album_name { "test" }
-    likes_count { 157 }
-  end
-
-  factory :my_playlist, class: "Playlist" do
-    owner_type { "User" }
-    owner_id { create(:user).id }
-    title { "old title" }
-    list_type { "default" }
-
-    trait :invalid do
-       owner_id { nil }
+      after(:create) do |group, evaluator|
+        create_list(:user, evaluator.users_count, groups: [group])
+        group.reload
+      end
     end
   end
 
-  factory :my_album, class: "Playlist" do
-    owner_type { "User" }
-    owner_id { create(:user).id }
-    title { "test" }
-    list_type { "my_album" }
+  factory :artist do
+    name { "new artist" }
+  end
+  
+  factory :album do
+    artist
   end
 
+  factory :track do
+    artist
+    album
+    title { "new track" }
+    artist_name { "new track artist" }
+    album_name { "new track album" }
+    likes_count { 157 }
+  end
+
+  factory :playlist do
+    for_user
+    list_type { "default" }
+    title { "old title" }
+
+    trait :for_group do
+      association :owner, factory: :group
+    end
+
+    trait :for_user do
+      association :owner, factory: :user
+    end
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_10_073831) do
+ActiveRecord::Schema.define(version: 2022_09_12_025342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,8 +40,10 @@ ActiveRecord::Schema.define(version: 2022_09_10_073831) do
     t.bigint "track_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
     t.index ["playlist_id"], name: "index_playlist_tracks_on_playlist_id"
     t.index ["track_id"], name: "index_playlist_tracks_on_track_id"
+    t.index ["user_id"], name: "index_playlist_tracks_on_user_id"
   end
 
   create_table "playlists", force: :cascade do |t|
@@ -86,6 +88,7 @@ ActiveRecord::Schema.define(version: 2022_09_10_073831) do
   add_foreign_key "albums", "artists"
   add_foreign_key "playlist_tracks", "playlists"
   add_foreign_key "playlist_tracks", "tracks"
+  add_foreign_key "playlist_tracks", "users"
   add_foreign_key "tracks", "albums"
   add_foreign_key "tracks", "artists"
   add_foreign_key "user_groups", "groups"

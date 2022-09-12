@@ -66,4 +66,10 @@ FactoryBot.define do
       association :owner, factory: :user
     end
   end
+
+  factory :playlist_track do
+    track
+    playlist
+    user
+  end
 end

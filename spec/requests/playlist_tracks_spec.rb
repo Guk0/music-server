@@ -70,6 +70,27 @@ RSpec.describe "PlaylistTracks", type: :request do
         end
       end 
     end
+
+    context "with more than 100 playlist_tracks" do
+      before do
+        @user = FactoryBot.create(:user)
+        @playlist = FactoryBot.create(:playlist, owner: @user)
+        @track = FactoryBot.create(:track)
+        create_list(:playlist_track, 100, playlist_id: @playlist.id, track_id: @track.id, user_id: @user.id)
+      end
+
+      it "creates a new playlist_track and deletes first of playlist_tracks" do
+        params = FactoryBot.attributes_for(:playlist_track, playlist_id: @playlist.id, track_id: @track.id, user_id: @user.id)
+        first_playlist_track = @playlist.playlist_tracks.first
+        
+        expect {
+          post playlist_tracks_path, params: { playlist_track: params }
+        }.to change(PlaylistTrack, :count).by(0)
+        
+        expect(first_playlist_track).not_to eq(@playlist.playlist_tracks.first)
+        expect(@playlist.playlist_tracks.size).to eq(100)
+      end
+    end
   end
 
   describe "DELETE /playlist_tracks/:id" do

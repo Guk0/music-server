@@ -58,6 +58,7 @@ RSpec.describe "Albums", type: :request do
   describe "PATCH /albums/:id" do
     before do
       @album = FactoryBot.create(:album)
+      @track = FactoryBot.create(:track, album: @album, artist: @album.artist)
     end
 
     it "updates a album" do
@@ -65,6 +66,8 @@ RSpec.describe "Albums", type: :request do
       patch album_path(@album.id), params: { album: album_params }
 
       expect(@album.reload.title).to eq("new title")
+
+      expect(@track.reload.album_name).to eq("new title")
     end
   end
 end

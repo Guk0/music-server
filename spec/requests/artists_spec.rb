@@ -58,6 +58,8 @@ RSpec.describe "Artists", type: :request do
   describe "PATCH /artists/:id" do
     before do
       @artist = FactoryBot.create(:artist)
+      @album = FactoryBot.create(:album, artist: @artist)
+      @track = FactoryBot.create(:track, album: @album, artist: @artist)
     end
 
     it "updates a artist" do
@@ -65,6 +67,7 @@ RSpec.describe "Artists", type: :request do
       patch artist_path(@artist.id), params: { artist: artist_params }
 
       expect(@artist.reload.name).to eq("new name")
+      expect(@track.reload.artist_name).to eq("new name")
     end
   end
 end

@@ -3,6 +3,10 @@ class TracksController < ApplicationController
   
   def index 
     @tracks = Track.all
+    # .where("title LIKE :search or artist_name LIKE :search or album_name LIKE :search", search: "%#{params[:search]}%")
+    # .order("#{params[:sort]} desc")
+    # .page(params[:page])
+    # .per(100)
   end
 
   def show

@@ -10,9 +10,8 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'kaminari'
 gem 'faker'
 gem 'activerecord-import'
-
-# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'blueprinter'
+gem 'oj'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

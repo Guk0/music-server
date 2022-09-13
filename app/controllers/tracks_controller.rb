@@ -3,21 +3,34 @@ class TracksController < ApplicationController
   
   def index 
     @tracks = Track.all
-    # .where("title LIKE :search or artist_name LIKE :search or album_name LIKE :search", search: "%#{params[:search]}%")
-    # .order("#{params[:sort]} desc")
-    # .page(params[:page])
-    # .per(100)
+      .where("title LIKE :search or artist_name LIKE :search or album_name LIKE :search", search: "%#{params[:search]}%")      
+      # .where("to_tsvector(title, artist_name, album_name) @@ to_tsquery(?)", params[:search])
+      .order(params[:sort] ? "#{params[:sort]} desc" : "")
+      .page(params[:page])
+      .per(100)
+      
+    render json: TrackBlueprint.render(@tracks)
   end
 
   def show
+    render json: TrackBlueprint.render(@track)
   end
 
   def create
-    @track = Track.create(track_params)
+    @track = Track.new(track_params)
+    if @track.save
+      render json: TrackBlueprint.render(@track), status: :created
+    else
+      render json: @track.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   def update
-    @track.update(track_params)
+    if @track.update(track_params)
+      render json: TrackBlueprint.render(@track)
+    else
+      render json: @track.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   def destroy

@@ -2,18 +2,29 @@ class ArtistsController < ApplicationController
   before_action :load_artist, only: [:show, :update, :destroy]
   
   def index 
-    @artists = Artist.all
+    @artists = Artist.page(params[:page]).per(100)
+    render json: ArtistBlueprint.render(@artists)
   end
 
   def show
+    render json: ArtistBlueprint.render(@artist)
   end
 
   def create
-    @artist = Artist.create(artist_params)
+    @artist = Artist.new(artist_params)
+    if @artist.save
+      render json: ArtistBlueprint.render(@artist), status: :created
+    else
+      render json: @artist.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   def update
-    @artist.update(artist_params)
+    if @artist.update(artist_params)
+      render json: ArtistBlueprint.render(@artist)
+    else
+      render json: @artist.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   def destroy

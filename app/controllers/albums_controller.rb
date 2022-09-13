@@ -2,18 +2,29 @@ class AlbumsController < ApplicationController
   before_action :load_album, only: [:show, :update, :destroy]
   
   def index 
-    @albums = Album.all
+    @albums = Album.page(params[:page]).per(100)
+    render json: AlbumBlueprint.render(@albums, view: :detail)
   end
 
   def show
+    render json: AlbumBlueprint.render(@albums, view: :detail)
   end
 
   def create
-    @album = Album.create(album_params)
+    @album = Album.new(album_params)
+    if @album.save
+      render json: AlbumBlueprint.render(@album), status: :created
+    else
+      render json: @album.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
-  def update
-    @album.update(album_params)
+  def update    
+    if @album.update(album_params)
+      render json: AlbumBlueprint.render(@album)
+    else
+      render json: @album.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   def destroy

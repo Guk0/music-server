@@ -7,7 +7,7 @@ class AlbumsController < ApplicationController
   end
 
   def show
-    render json: AlbumBlueprint.render(@albums, view: :detail)
+    render json: AlbumBlueprint.render(@album, view: :detail)
   end
 
   def create

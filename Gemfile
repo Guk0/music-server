@@ -12,8 +12,6 @@ gem 'faker'
 gem 'activerecord-import'
 gem 'blueprinter'
 gem 'oj'
-gem 'elasticsearch-model'
-gem 'elasticsearch-rails'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

@@ -4,7 +4,7 @@ class Artist < ApplicationRecord
   has_many :albums
   has_many :tracks  
 
-  after_save :update_artist_name_of_tracks
+  after_update :update_artist_name_of_tracks
 
   private
   def update_artist_name_of_tracks

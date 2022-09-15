@@ -5,7 +5,7 @@ class Album < ApplicationRecord
 
   has_many :tracks
 
-  after_save :update_album_name_of_tracks
+  after_update :update_album_name_of_tracks
 
   private
   def update_album_name_of_tracks

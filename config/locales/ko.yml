@@ -61,3 +61,7 @@ ko:
               required: "항목은 필수입니다."
             artist:
               required: "항목은 필수입니다."
+            artist_name: 
+              blank: "항목이 비어있습니다"
+            album_name: 
+              blank: "항목이 비어있습니다"

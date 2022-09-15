@@ -1,19 +1,6 @@
 version: '3.9'
 
 services:
-  app: 
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - db
-    ports: 
-      - "3000:3000"
-    volumes:
-      - .:/music-api
-      - gem_cache:/usr/local/bundle/gems
-    env_file: .env.docker
-
   db:
     image: postgres
     volumes:
@@ -23,6 +10,34 @@ services:
     ports:
       - 5432:5432
 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.1
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+
+  app: 
+    build:
+      context: .
+    ports: 
+      - "3000:3000"
+    volumes:
+      - .:/music-api
+      - gem_cache:/usr/local/bundle/gems
+    env_file: .env.docker
+    links:
+      - elasticsearch
+      - db
+    environment:
+      - DB_HOST=db
+      - ELASTICSEARCH_HOST=elasticsearch
+
+
+
+
 volumes:
   gem_cache:
-  db_data:  
+  db_data:
+  es_data:

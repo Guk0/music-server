@@ -11,20 +11,13 @@ class AlbumsController < ApplicationController
   end
 
   def create
-    @album = Album.new(album_params)
-    if @album.save
-      render json: AlbumBlueprint.render(@album), status: :created
-    else
-      render json: @album.errors.full_messages, status: :unprocessable_entity
-    end
+    @album = Album.create!(album_params)
+    render json: AlbumBlueprint.render(@album), status: :created
   end
 
   def update    
-    if @album.update(album_params)
-      render json: AlbumBlueprint.render(@album)
-    else
-      render json: @album.errors.full_messages, status: :unprocessable_entity
-    end
+    @album.update!(album_params)
+    render json: AlbumBlueprint.render(@album)
   end
 
   def destroy

@@ -1,18 +1,15 @@
 class PlaylistTracksController < ApplicationController
   before_action :load_playlist
   before_action :load_user
+  before_action :check_user
 
   def create
-    do_or_render_403(@playlist.check_user(@user)) do
-      @playlist_track = PlaylistTrack.create(playlist_track_params)
-    end
+    @playlist_track = PlaylistTrack.create(playlist_track_params)
   end
 
 
   def destroy
-    do_or_render_403(@playlist.check_user(@user)) do
-      @playlist.playlist_tracks.find(params[:id]).destroy
-    end
+    @playlist.playlist_tracks.find(params[:id]).destroy
   end
 
   private
@@ -26,5 +23,11 @@ class PlaylistTracksController < ApplicationController
   
   def playlist_track_params
     params.require(:playlist_track).permit(:playlist_id, :track_id, :user_id)
+  end
+
+  def check_user
+    unless @playlist.check_user(@user)
+      raise ApplicationController::Forbidden
+    end
   end
 end

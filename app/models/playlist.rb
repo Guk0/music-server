@@ -13,7 +13,7 @@ class Playlist < ApplicationRecord
     # 그룹인 경우와 그렇지 않은 경우 권한 체크
     if owner_type == "Group"
       group = Group.find(owner_id)
-      group.users.include?(user)
+      group.users.find_by(id: user.id)
     else
       owner == user
     end

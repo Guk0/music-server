@@ -11,20 +11,13 @@ class ArtistsController < ApplicationController
   end
 
   def create
-    @artist = Artist.new(artist_params)
-    if @artist.save
-      render json: ArtistBlueprint.render(@artist), status: :created
-    else
-      render json: @artist.errors.full_messages, status: :unprocessable_entity
-    end
+    @artist = Artist.create!(artist_params)
+    render json: ArtistBlueprint.render(@artist), status: :created
   end
 
   def update
-    if @artist.update(artist_params)
-      render json: ArtistBlueprint.render(@artist)
-    else
-      render json: @artist.errors.full_messages, status: :unprocessable_entity
-    end
+    @artist.update(artist_params)
+    render json: ArtistBlueprint.render(@artist)
   end
 
   def destroy

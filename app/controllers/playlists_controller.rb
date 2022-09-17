@@ -3,27 +3,26 @@ class PlaylistsController < ApplicationController
   before_action :load_playlist, only: [:show, :update, :destroy]
 
   def index
-    playlists = @owner.playlists.where(list_type: Playlist.list_types.dig(params[:list_type])).page(params[:page]).per(10)
-    render json: playlists.to_json
+    playlists = @owner.playlists.where(list_type: params[:list_type] || "default").page(params[:page]).per(10)
+    render json: PlaylistBlueprint.render(playlists)
   end
   
-  def show # tracks과 함께 보여줘야함.
-    render json: @playlist.to_json
+  def show # tracks과 함께 보여줘야함.    
+    render json: PlaylistBlueprint.render(@playlist, view: :detail)
   end
 
   def create
     playlist = @owner.playlists.create(playlist_params)
-    render json: playlist.to_json
+    render json: PlaylistBlueprint.render(playlist)
   end
 
   def update
-    playlist = @playlist.update(playlist_params)
-    render json: playlist.to_json
+    @playlist.update(playlist_params)
+    render json: PlaylistBlueprint.render(@playlist)
   end
 
   def destroy
     @playlist.destroy
-    render status: 200
   end
 
   private
@@ -40,6 +39,6 @@ class PlaylistsController < ApplicationController
   end
   
   def playlist_params
-    params.require(:playlist).permit(:owner_type, :owner_id, :list_type, :title)
+    params.require(:playlist).permit(:list_type, :title)
   end
 end

@@ -3,18 +3,18 @@ class TracksController < ApplicationController
   
   def index
     if params[:q].present?
-      @tracks = Track.search_by_dsl(params[:q], params[:artist_id], params[:album_id], params[:sort])
+      tracks = Track.search_by_dsl(params[:q], params[:artist_id], params[:album_id], params[:sort])
     else
-      @tracks = Track.all
+      tracks = Track.all
     end
 
-    @tracks = @tracks.includes(:album, :artist).page(params[:page]).per(10)
+    tracks = tracks.includes(:album, :artist).page(params[:page]).per(10)
       
-    render json: TrackBlueprint.render(@tracks)
+    render json: TrackBlueprint.render(tracks, view: :with_association)
   end
 
   def show
-    render json: TrackBlueprint.render(@track)
+    render json: TrackBlueprint.render(@track, view: :with_association)
   end
 
   def create
@@ -23,13 +23,13 @@ class TracksController < ApplicationController
       artist_name: Artist.find_by(id: params.dig(:track, :artist_id))&.name
     )
     
-    @track = Track.create!(track_params)
-    render json: TrackBlueprint.render(@track), status: :created
+    track = Track.create!(track_params)
+    render json: TrackBlueprint.render(track, view: :with_association), status: :created
   end
 
   def update
     @track.update!(track_params)
-    render json: TrackBlueprint.render(@track)
+    render json: TrackBlueprint.render(@track, view: :with_association)
   end
 
   def destroy

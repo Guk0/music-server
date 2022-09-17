@@ -5,6 +5,7 @@ class Playlist < ApplicationRecord
   belongs_to :owner, polymorphic: true
 
   has_many :playlist_tracks, dependent: :destroy
+  has_many :tracks, through: :playlist_tracks
 
   enum list_type: { default: 0, my_album: 1 }
 

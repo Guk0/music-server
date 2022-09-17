@@ -12,7 +12,7 @@ class AlbumsController < ApplicationController
 
   def create
     @album = Album.create!(album_params)
-    render json: AlbumBlueprint.render(@album), status: :created
+    render json: AlbumBlueprint.render(@album)
   end
 
   def update    

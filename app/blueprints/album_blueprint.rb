@@ -5,5 +5,6 @@ class AlbumBlueprint < Blueprinter::Base
 
   view :detail do
     association :artist, blueprint: ArtistBlueprint
+    association :tracks, blueprint: TrackBlueprint
   end
 end

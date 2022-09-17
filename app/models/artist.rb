@@ -1,8 +1,8 @@
 class Artist < ApplicationRecord
   validates :name, presence: true
 
-  has_many :albums
-  has_many :tracks  
+  has_many :albums, dependent: :destroy
+  has_many :tracks, dependent: :destroy  
 
   after_update :update_artist_name_of_tracks
 

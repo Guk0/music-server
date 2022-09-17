@@ -3,7 +3,7 @@ class Album < ApplicationRecord
 
   belongs_to :artist
 
-  has_many :tracks
+  has_many :tracks, dependent: :destroy  
 
   after_update :update_album_name_of_tracks
 

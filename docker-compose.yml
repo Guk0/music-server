@@ -11,7 +11,8 @@ services:
       - 5432:5432
   app: 
     build:
-      context: .
+      context: ./docker
+      dockerfile: Dockerfile.app
     ports: 
       - "3000:3000"
     volumes:
@@ -20,12 +21,26 @@ services:
     env_file: .env.docker
     links:
       - db
+      - elasticsearch
     stdin_open: true
     tty: true
-
-
-
+  elasticsearch:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile.elasticsearch
+    volumes:
+     - es_data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.1
+    ports:
+      - 5601:5601
+    env_file: .env.docker
+      
 
 volumes:
   gem_cache:
+  es_data:
   db_data:

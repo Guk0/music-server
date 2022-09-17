@@ -7,12 +7,13 @@ class PlaylistsController < ApplicationController
     render json: PlaylistBlueprint.render(playlists)
   end
   
-  def show # tracks과 함께 보여줘야함.    
+  def show # tracks과 함께 보여줘야함.
     render json: PlaylistBlueprint.render(@playlist, view: :detail)
   end
 
   def create
-    playlist = @owner.playlists.create(playlist_params)
+    # owner can create only my_album type in this action.
+    playlist = @owner.playlists.my_album.create(playlist_params)
     render json: PlaylistBlueprint.render(playlist)
   end
 
@@ -39,6 +40,6 @@ class PlaylistsController < ApplicationController
   end
   
   def playlist_params
-    params.require(:playlist).permit(:list_type, :title)
+    params.require(:playlist).permit(:title)
   end
 end

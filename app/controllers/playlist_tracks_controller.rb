@@ -26,6 +26,7 @@ class PlaylistTracksController < ApplicationController
   end
 
   def check_user
+    # 추후 auth 기능이 추가된 뒤 @user를 current_user로 변경한다.
     unless @playlist.check_user(@user)
       raise ApplicationController::Forbidden
     end

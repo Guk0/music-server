@@ -2,15 +2,14 @@ class TracksController < ApplicationController
   before_action :load_track, only: [:show, :update, :destroy]
   
   def index
-    if params[:q].present?
-      tracks = Track.search_by_dsl(params[:q], params[:artist_id], params[:album_id], params[:sort])
-    else
-      tracks = Track.all
-    end
+    result_tracks = Track.search_by_dsl(params[:q], params[:artist_id], params[:album_id], params[:sort], params[:page])
+    tracks = result_tracks.records.includes(:album, :artist)
 
-    tracks = tracks.includes(:album, :artist).page(params[:page]).per(10)
-      
-    render json: TrackBlueprint.render(tracks, view: :with_association)
+    render json: { 
+      total_count: result_tracks.total_count, 
+      current_page: result_tracks.current_page, 
+      data: TrackBlueprint.render_as_hash(tracks, view: :with_association) 
+    }
   end
 
   def show

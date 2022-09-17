@@ -15,26 +15,31 @@ module TrackSearchable
       indexes :created_at, type: :date
     end
   
-    def self.search_by_dsl query, artist_id, album_id, sort
-      query = {
+    def self.search_by_dsl q, artist_id, album_id, sort, page
+      search = {
         query: {                
           bool: {
-            must: [
-              { 
-                multi_match: {
-                  query: query,
-                  operator: "and",
-                  fields: ["title", "album_name", "artist_name"],
-                }
-              },
-            ]   
+            must: []   
           },
         }
-      }    
-      query[:query][:bool][:must].append({ match: { artist_id: artist_id } }) if artist_id.present?
-      query[:query][:bool][:must].append({ match: { album_id: album_id } }) if album_id.present?
-      query[:sort] = [{ sort.to_sym => "desc" }] if sort.present?
-      self.__elasticsearch__.search(query).records.records
+      }
+      
+      search[:query][:bool][:must].append(
+        { 
+          multi_match: {
+            query: q,
+            operator: "and",
+            fields: ["title", "album_name", "artist_name"],
+          } 
+        }
+      ) if q.present?
+      search[:query][:bool][:must].append({ match: { artist_id: artist_id } }) if artist_id.present?
+      search[:query][:bool][:must].append({ match: { album_id: album_id } }) if album_id.present?
+      search[:sort] = [{ sort.to_sym => "desc" }] if sort.present?
+      
+      search = {} if q.blank? && artist_id.blank? && album_id.blank?
+
+      self.__elasticsearch__.search(search).page(page).records
     end
   end
 end

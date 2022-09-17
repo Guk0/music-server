@@ -4,6 +4,7 @@ class GenerateSeed
   def generate_artists_albums_tracks
     data = JSON.parse(File.read("./seed.json"))    
     data.each do |track_hash|
+      sleep(0.5)
       artist = Artist.create!(name: track_hash["artist"])
       # p artist.errors.full_message
       track_hash["albums"].each do |album|

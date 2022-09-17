@@ -1,6 +1,17 @@
 [
   {
     "artist": "아이유", "albums": [
+      { "title": "IU 5th Album 'LILAC'", "tracks": 
+        [
+          { "title": "라일락", "likes_count": 125875 },
+          { "title": "Coin", "likes_count": 12357 },
+          { "title": "봄 안녕 봄", "likes_count": 1258 },
+          { "title": "Celebrity", "likes_count": 245285 },
+          { "title": "아이와 나의 바다", "likes_count": 1234 },
+          { "title": "빈 컵 (Empty Cup)", "likes_count": 588 },
+          { "title": "에필로그", "likes_count": 3218 }
+        ]
+      },
       { "title": "Real", "tracks": 
         [
           { "title": "좋은날", "likes_count": 10000 },
@@ -37,5 +48,97 @@
         ]
       }
     ]
+  },
+  {
+    "artist": "ITZY (있지)", "albums": [
+      { "title": "IT'z Different", "tracks":
+        [
+          { "title": "달라달라", "likes_count": 152100 },
+          { "title": "WANT IT?", "likes_count": 14000 }
+        ]
+      },
+      { "title": "IT'z ICY", "tracks":
+        [
+          { "title": "ICY", "likes_count": 50104 },
+          { "title": "CHERRY", "likes_count": 2021 },
+          { "title": "달라달라 (DallasK Remix)", "likes_count": 1520 }
+        ]
+      },
+      { "title": "CHECKMATE", "tracks":
+        [
+          { "title": "SNEAKERS", "likes_count": 20142 },
+          { "title": "RACER", "likes_count": 215 },
+          { "title": "DOMINO", "likes_count": 121 }
+        ]
+      }
+    ]
+  },
+  {
+    "artist": "볼빨간사춘기", "albums": [
+      { "title": "Red Diary Page.1", "tracks":
+        [
+          { "title": "썸 탈꺼야", "likes_count": 35122 },
+          { "title": "고쳐주세요?", "likes_count": 14121 },
+          { "title": "상상", "likes_count": 4225 },
+          { "title": "나의 사춘기에게", "likes_count": 25121 }
+        ]
+      },
+      { "title": "Full Album RED PLANET", "tracks":
+        [
+          { "title": "우주를 줄게", "likes_count": 51744 },
+          { "title": "싸운날", "likes_count": 21215 },
+          { "title": "심술", "likes_count": 1272 },
+          { "title": "나만 안되는 연애", "likes_count": 58421 },
+          { "title": "X Song", "likes_count": 1212 }
+        ]
+      },
+      { "title": "Red Diary Page.2", "tracks":
+        [
+          { "title": "바람사람", "likes_count": 32155 },
+          { "title": "여행", "likes_count": 14211 },
+          { "title": "야경", "likes_count": 7522 },
+          { "title": "안녕, 곰인형", "likes_count": 985 },
+          { "title": "Lonely", "likes_count": 1258 }
+        ]
+      }
+    ]
+  },
+  {
+    "artist": "AKMU (악뮤)", "albums": [
+      { "title": "PLAY", "tracks":
+        [
+          { "title": "Give Love", "likes_count": 50142 },
+          { "title": "200%", "likes_count": 78502 },
+          { "title": "얼음들", "likes_count": 2153 },
+          { "title": "지하철에서", "likes_count": 1105 },
+          { "title": "가르마", "likes_count": 1325 },
+          { "title": "인공잔디", "likes_count": 807 },
+          { "title": "안녕", "likes_count": 786 },
+          { "title": "작은별", "likes_count": 245 },
+          { "title": "길이나", "likes_count": 122 }
+        ]
+      },
+      { "title": "사춘기 상 (思春記 上)", "tracks":
+        [
+          { "title": "RE-BYE", "likes_count": 55620 },
+          { "title": "사람들이 움직이는 게", "likes_count": 48521 },
+          { "title": "새삼스럽게 왜", "likes_count": 352 },
+          { "title": "초록창가", "likes_count": 178 },
+          { "title": "사소한 것에서", "likes_count": 655 },
+          { "title": "주변인", "likes_count": 121 }
+        ]
+      },
+      { "title": "사춘기 하 (思春記 下)", "tracks":
+        [
+          { "title": "생방송", "likes_count": 1212 },
+          { "title": "리얼리티", "likes_count": 8522 },
+          { "title": "오랜 날 오랜 밤", "likes_count": 56715 },
+          { "title": "못생긴 척", "likes_count": 123 },
+          { "title": "집에 돌아오는 길", "likes_count": 456 },
+          { "title": "그때 그 아이들은", "likes_count": 789 }
+        ]
+      }
+    ]
   }
+
 ]

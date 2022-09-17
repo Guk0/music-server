@@ -2,22 +2,13 @@ class TracksController < ApplicationController
   before_action :load_track, only: [:show, :update, :destroy]
   
   def index
-    # Track.__elasticsearch__.create_index!
-    # Track.__elasticsearch__.import batch_size: 10000
-
-    if params[:search].present?
-      @tracks = Track.__elasticsearch__.search(params[:search]).records.records
+    if params[:q].present?
+      @tracks = Track.search_by_dsl(params[:q], params[:artist_id], params[:album_id], params[:sort])
     else
       @tracks = Track.all
     end
 
     @tracks = @tracks.includes(:album, :artist).page(params[:page]).per(10)
-    # @tracks = Track.includes(:artist, :album)
-    #   .where("title LIKE :search or artist_name LIKE :search or album_name LIKE :search", search: "%#{params[:search]}%")      
-    #   # .where("to_tsvector(title, artist_name, album_name) @@ to_tsquery(?)", params[:search])
-    #   .order(params[:sort] ? "#{params[:sort]} desc" : "")
-    #   .page(params[:page])
-    #   .per(100)
       
     render json: TrackBlueprint.render(@tracks)
   end

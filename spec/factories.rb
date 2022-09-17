@@ -47,9 +47,12 @@ FactoryBot.define do
     album_name { "track album" }
     likes_count { 157 }
 
-
     trait :invalid do
       title { nil }
+    end
+
+    before(:create) do |track, evaluator|      
+      track._commit_callbacks.clear
     end
   end
 

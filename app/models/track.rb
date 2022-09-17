@@ -1,6 +1,5 @@
 class Track < ApplicationRecord
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
+  include TrackSearchable
 
   validates :title, presence: true
   validates :artist_name, presence: true
@@ -11,3 +10,4 @@ class Track < ApplicationRecord
 
   has_many :playlist_tracks, dependent: :destroy
 end
+

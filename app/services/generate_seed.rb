@@ -1,60 +1,21 @@
 class GenerateSeed
   attr_reader :albums
 
-  TRACKS = [
-    {
-      artist: "아이유", albums: [
-        { title: "Real", tracks: 
-          [
-            { title: "좋은날" },
-            { title: "미리 메리 크리스마스 (Feat. 천둥 Of MBLAQ)" },
-            { title: "첫 이별 그날 밤" },
-            { title: "혼자 있는 방" },
-          ]
-        },
-        { title: "Growing Up", tracks: 
-          [
-            { title: "바라보기" },
-            { title: "Boo" },
-            { title: "가여워" },
-            { title: "A Dreamer" },
-            { title: "미아" },
-            { title: "미아(Acoustic Ver." },
-            { title: "있잖아" },
-          ]
-        },
-      ]
-    },
-    {
-      artist: "BLACKPINK", albums: [
-        { title: "SQUARE ONE", tracks:
-          [
-            { title: "휘파람" },
-            { title: "붐바야" },
-          ]
-        },
-        { title: "SQUARE TWO", tracks:
-          [
-            { title: "불장난" },
-            { title: "STAY" },
-          ]
-        }
-      ]
-    }
-  ]
-
   def generate_artists_albums_tracks
-    TRACKS.each do |track_hash|
-      artist = Artist.create!(name: track_hash[:artist])
-      track_hash[:albums].each do |album|
-        new_album = Album.create!(title: album[:title], artist: artist)
-        album[:tracks].each do |track|
+    data = JSON.parse(File.read("./seed.json"))    
+    data.each do |track_hash|
+      artist = Artist.create!(name: track_hash["artist"])
+      # p artist.errors.full_message
+      track_hash["albums"].each do |album|
+        new_album = Album.create!(title: album["title"], artist: artist)
+        album["tracks"].each do |track|
           track = Track.create(
-            title: track[:title], 
+            title: track["title"], 
             artist: artist, 
             album: new_album,
             artist_name: artist.name,
             album_name: new_album.title,
+            likes_count: track["likes_count"],
           )
         end        
       end

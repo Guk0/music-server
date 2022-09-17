@@ -1,0 +1,41 @@
+[
+  {
+    "artist": "아이유", "albums": [
+      { "title": "Real", "tracks": 
+        [
+          { "title": "좋은날", "likes_count": 10000 },
+          { "title": "미리 메리 크리스마스 (Feat. 천둥 Of MBLAQ)", "likes_count": 5687 },
+          { "title": "첫 이별 그날 밤", "likes_count": 3586 },
+          { "title": "혼자 있는 방", "likes_count": 287 }
+        ]
+      },
+      { "title": "Growing Up", "tracks": 
+        [
+          { "title": "바라보기", "likes_count": 368 },
+          { "title": "Boo", "likes_count": 5325},
+          { "title": "가여워", "likes_count": 268 },
+          { "title": "A Dreamer", "likes_count": 289 },
+          { "title": "미아", "likes_count": 4862 },
+          { "title": "미아(Acoustic Ver.", "likes_count": 2054 },
+          { "title": "있잖아", "likes_count": 3896 }
+        ]
+      }
+    ]
+  },
+  {
+    "artist": "BLACKPINK", "albums": [
+      { "title": "SQUARE ONE", "tracks":
+        [
+          { "title": "휘파람", "likes_count": 23351 },
+          { "title": "붐바야", "likes_count": 18050 }
+        ]
+      },
+      { "title": "SQUARE TWO", "tracks":
+        [
+          { "title": "불장난", "likes_count": 35121 },
+          { "title": "STAY", "likes_count": 15000 }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,67 @@
+ko:
+  activerecord:
+    models:
+      user: "사용자"
+      album: "앨범"
+      artist: "가수"
+      group: "사용자 그룹"
+      playlist: "재생 목록"
+      track: "음악"
+
+    attributes:
+      user:
+        name: "이름"
+        email: "이메일"
+      album:
+        title: "제목"
+        artist: "가수"
+      artist:
+        name: "이름"
+      group:
+        name: "이름"
+      playlist:
+        title: "제목"
+        list_type: "타입"
+        owner: "소유자"
+      track:
+        title: "제목"
+        artist_name: "가수 이름"
+        album_name: "앨범 이름"
+        album: "앨범"
+        artist: "가수"
+
+    errors:
+      format: "%{attribute} %{message}"
+      models:
+        album:
+          attributes:
+            title:
+              blank: "항목이 비어있습니다"
+            artist:
+              required: "항목은 필수입니다."
+        artist:
+          attributes:
+            name:
+              blank: "항목이 비어있습니다"
+        group:
+          attributes:
+            name:
+              blank: "항목이 비어있습니다"
+        playlist:
+          attributes:
+            title:
+              blank: "항목이 비어있습니다"
+            owner:
+              required: "항목은 필수입니다."
+        track:
+          attributes:
+            title:
+              blank: "항목이 비어있습니다"
+            album:
+              required: "항목은 필수입니다."
+            artist:
+              required: "항목은 필수입니다."
+            artist_name: 
+              blank: "항목이 비어있습니다"
+            album_name: 
+              blank: "항목이 비어있습니다"

@@ -24,10 +24,19 @@ FactoryBot.define do
 
   factory :artist do
     name { "artist" }
+
+    trait :invalid do
+      name { nil }
+    end
   end
   
   factory :album do
-    artist
+    title { "album" }
+    artist { association(:artist) }
+
+    trait :invalid do
+      name { nil }
+    end
   end
 
   factory :track do
@@ -37,6 +46,14 @@ FactoryBot.define do
     artist_name { "track artist" }
     album_name { "track album" }
     likes_count { 157 }
+
+    trait :invalid do
+      title { nil }
+    end
+
+    before(:create) do |track, evaluator|      
+      track._commit_callbacks.clear
+    end
   end
 
   factory :playlist do
@@ -51,5 +68,11 @@ FactoryBot.define do
     trait :for_user do
       association :owner, factory: :user
     end
+  end
+
+  factory :playlist_track do
+    track
+    playlist
+    user
   end
 end

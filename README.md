@@ -85,11 +85,11 @@
 
 ### playlists
 - GET /playlists
-  - my_album(내앨범) 타입의 playlist를 조회합니다.
+  - 소유자 구분 상관없이 my_album(내앨범) 타입의 playlist를 조회합니다.
 - GET /playlists:id
-  - my_album(내앨범) 타입의 playlist를 조회합니다.
+  - 소유자 구분 상관없이 my_album(내앨범) 타입의 playlist를 조회합니다.
 - GET /playlists/my_playlist
-  - default(재생목록) 타입의 playlist를 조회합니다.
+  - 본인 혹은 그룹의 재생목록, 내 앨범을 조회힙니다.
   - required params : owner_id, owner_type
     - polymorphic association 이므로 owner_id와 owner_type을 받습니다.
     - owner_type은 일단 "user"와 "group"만 허용합니다.

@@ -1,6 +1,7 @@
 class GroupsController < ApplicationController
   before_action :load_user, only: [:create, :update, :destroy]
   before_action :load_group, only: [:update, :destroy]
+  before_action -> { authenticate_user(@group, @user) }, only: [:update, :destroy]
 
   def index
     groups = Group.all.page(params[:page]).per(10)
@@ -11,7 +12,8 @@ class GroupsController < ApplicationController
   end
  
   def create
-    @group = @user.groups.create(group_params)
+    @group = @user.owned_groups.create(group_params)
+    @group.users << @user
   end
   
   def update
@@ -24,7 +26,6 @@ class GroupsController < ApplicationController
 
   private
   def load_user
-    # current_user 역할. 일단은 user_id에 해당하는 객체의 group만 볼 수 있도록 작업.
     @user = User.find(params[:user_id])
   end
 

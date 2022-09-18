@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe "Tracks", type: :request do
-  describe "GET /tracks" do
-    before do
-      @track = FactoryBot.create(:track)
-    end
+  # describe "GET /tracks" do
+  #   before do
+  #     @track = FactoryBot.create(:track)
+  #   end
 
-    it "returns http success" do
-      get tracks_path
-      expect(response).to have_http_status(:success)
-    end
-  end
+  #   it "returns http success" do
+  #     get tracks_path
+  #     expect(response).to have_http_status(:success)
+  #   end
+  # end
 
   describe "GET /tracks/:id" do
     before do

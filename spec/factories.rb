@@ -5,6 +5,7 @@ FactoryBot.define do
 
   factory :group do
     name { "name" }
+    association :owner, factory: :user
 
     trait :invalid do
       name { nil }

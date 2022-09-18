@@ -1,7 +1,7 @@
 class PlaylistTracksController < ApplicationController
   before_action :load_playlist
   before_action :load_user
-  before_action :check_user
+  before_action -> { authenticate_user(@playlist, @user) }
 
   def create
     @playlist_track = PlaylistTrack.create(playlist_track_params)
@@ -23,12 +23,5 @@ class PlaylistTracksController < ApplicationController
   
   def playlist_track_params
     params.require(:playlist_track).permit(:playlist_id, :track_id, :user_id)
-  end
-
-  def check_user
-    # 추후 auth 기능이 추가된 뒤 @user를 current_user로 변경한다.
-    unless @playlist.check_user(@user)
-      raise ApplicationController::Forbidden
-    end
   end
 end

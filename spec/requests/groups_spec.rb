@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Groups", type: :request do
   describe "GET /groups" do
     before do      
-      @group = FactoryBot.create(:group)
+      @group = FactoryBot.create(:group, owner: create(:user))
     end
 
     it "returns http success" do
@@ -14,7 +14,7 @@ RSpec.describe "Groups", type: :request do
 
   describe "GET /groups/:id" do
     before do
-      @group = FactoryBot.create(:group)
+      @group = FactoryBot.create(:group, owner: create(:user))
     end
 
     it "returns http success" do      
@@ -37,6 +37,7 @@ RSpec.describe "Groups", type: :request do
           }.to change(Group, :count).by(1)
 
           expect(Group.last.users.last).to eq(@user)
+          expect(Group.last.owner).to eq(@user)
         end
       end
 
@@ -53,28 +54,40 @@ RSpec.describe "Groups", type: :request do
 
   describe "DELETE /groups/:id" do
     before do
-      @group = FactoryBot.create(:group_with_users, users_count: 1)
-      @user = @group.users.first
+      @owner = FactoryBot.create(:user)
+      @group = FactoryBot.create(:group_with_users, users_count: 1, owner: @owner)      
+      @group.users << @owner
     end
 
     it "deletes a group" do
       expect {
-        delete group_path(@group.id, user_id: @user.id)
+        delete group_path(@group.id, user_id: @owner.id)
       }.to change(Group, :count).by(-1)
     end
   end
 
   describe "PATCH /groups/:id" do
     before do
-      @group = FactoryBot.create(:group_with_users, users_count: 1)
+      @owner = FactoryBot.create(:user)
+      @group = FactoryBot.create(:group_with_users, users_count: 1, owner: @owner)      
       @user = @group.users.first
+      @group.users << @owner
     end
 
     it "updates a group" do
       group_params = FactoryBot.attributes_for(:group, name: "new name")
-      patch group_path(@group.id), params: { group: group_params, user_id: @user.id }
+      patch group_path(@group.id), params: { group: group_params, user_id: @owner.id }
 
       expect(@group.reload.name).to eq("new name")
+    end
+
+    it "does not updates a group" do
+      # @user is not owner of group
+      group_params = FactoryBot.attributes_for(:group, name: "new new name")
+      patch group_path(@group.id), params: { group: group_params, user_id: @user.id }
+
+      expect(response).to have_http_status(403)
+      expect(@group.reload.name).not_to eq("new new name")
     end
   end
 end

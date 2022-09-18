@@ -6,3 +6,6 @@ seed_class = GenerateSeed.new()
 # seed_class.generate_albums
 # seed_class.generate_tracks
 seed_class.generate_artists_albums_tracks
+seed_class.generate_user
+seed_class.generate_group
+seed_class.generate_playlist

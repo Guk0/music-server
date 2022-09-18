@@ -1,7 +1,13 @@
 class GenerateSeed
   # attr_reader :albums
 
+  def initialize
+    @users = []
+    @groups = []
+  end
+    
   def generate_artists_albums_tracks
+    p "generate artists, albums, tracks"
     data = JSON.parse(File.read("./seed.json"))    
     data.each do |track_hash|
       sleep(0.5)
@@ -23,6 +29,40 @@ class GenerateSeed
     end
   end
 
+  def generate_user
+    p "generate user"
+    10.times do |i|
+      user = User.create!(
+        email: "example#{i}@music.com",
+        name: "#{Faker::Name.last_name}#{Faker::Name.first_name}",
+      )
+      @users.append(user)
+    end
+  end
+
+  def generate_group
+    p "generate group"
+    @users.each_with_index do |user, index|
+      group = Group.create!(
+        name: "group-#{index}",
+        owner: user,
+      )
+      @groups.append(group)
+      group.users << user
+      group.users << User.all.sample(2)
+    end
+  end
+
+  def generate_playlist
+    p "generate playlist"
+    @groups.each do |group|
+      group.playlists.my_album.create(title: "#{group.name}-album")
+    end
+
+    @users.each do |user|
+      user.playlists.my_album.create(title: "#{user.name}-album")
+    end
+  end
 
   # def initialize()
   #   @albums = []

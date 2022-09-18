@@ -14,7 +14,7 @@ gem 'blueprinter'
 gem 'oj'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
-
+gem 'rswag'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

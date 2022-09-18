@@ -1,0 +1,63 @@
+---
+openapi: 3.0.1
+info:
+  title: music API
+  version: v1
+paths:
+  "/albums":
+    get:
+      summary: list albums
+      parameters:
+      - name: page
+        in: path
+        description: page
+        required: true
+        schema:
+          type: string
+      description: album 리스트를 가져옵니다.
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create album
+      parameters: []
+      description: 앨범을 생성합니다. artist_id와 title은 필수입니다.
+      responses:
+        '200':
+          description: successful
+  "/albums/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show album
+      description: 개별 album을 조회합니다. artist와 track list를 포함합니다.
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update album
+      parameters: []
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update album
+      parameters: []
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete album
+      responses:
+        '200':
+          description: successful
+servers:
+- url: http://localhost:3000
+  variables:
+    defaultHost:
+      default: http://localhost:3000

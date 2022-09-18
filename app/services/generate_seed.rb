@@ -1,5 +1,5 @@
 class GenerateSeed
-  attr_reader :albums
+  # attr_reader :albums
 
   def generate_artists_albums_tracks
     data = JSON.parse(File.read("./seed.json"))    

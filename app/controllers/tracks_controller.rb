@@ -2,7 +2,7 @@ class TracksController < ApplicationController
   before_action :load_track, only: [:show, :update, :destroy]
   
   def index
-    result_tracks = Track.search_by_dsl(params[:q], params[:artist_id], params[:album_id], params[:sort], params[:page])
+    result_tracks = Track.search_by_dsl(params)
     tracks = result_tracks.records.includes(:album, :artist)
 
     render json: { 

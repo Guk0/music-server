@@ -10,4 +10,8 @@ class User < ApplicationRecord
   def create_default_playlist
     playlists.default.create(title: "재생목록")
   end
+
+  def blueprint
+    UserBlueprint
+  end
 end

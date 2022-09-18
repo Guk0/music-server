@@ -16,4 +16,8 @@ class Group < ApplicationRecord
   def check_user user
     owner_id == user.id
   end
+
+  def blueprint
+    GroupBlueprint
+  end
 end

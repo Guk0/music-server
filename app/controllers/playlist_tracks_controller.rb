@@ -5,6 +5,7 @@ class PlaylistTracksController < ApplicationController
 
   def create
     @playlist_track = PlaylistTrack.create(playlist_track_params)
+    render status: :created
   end
 
 

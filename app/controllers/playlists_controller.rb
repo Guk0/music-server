@@ -4,7 +4,7 @@ class PlaylistsController < ApplicationController
 
   def index
     playlists = Playlist.my_album.page(params[:page]).per(10)
-    render json: PlaylistBlueprint.render(playlists)
+    render json: PlaylistBlueprint.render(playlists, view: :with_owner)
   end
   
   def show # tracks과 함께 보여줘야함.
@@ -14,18 +14,18 @@ class PlaylistsController < ApplicationController
 
   def my_playlist
     playlists = @owner.playlists.page(params[:page]).per(10)
-    render json: PlaylistBlueprint.render(playlists)
+    render json: PlaylistBlueprint.render(playlists, view: :with_owner)
   end
 
   def create
     # owner can create only my_album type in this action.
     playlist = @owner.playlists.my_album.create(playlist_params)
-    render json: PlaylistBlueprint.render(playlist)
+    render json: PlaylistBlueprint.render(playlist, view: :with_owner)
   end
 
   def update
     @playlist.update(playlist_params)
-    render json: PlaylistBlueprint.render(@playlist)
+    render json: PlaylistBlueprint.render(@playlist, view: :with_owner)
   end
 
   def destroy

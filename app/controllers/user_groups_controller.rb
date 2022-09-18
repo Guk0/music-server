@@ -6,6 +6,7 @@ class UserGroupsController < ApplicationController
   
   def create
     @group.users << User.find(params[:user_id])
+    render status: :created
   end
   
   def destroy

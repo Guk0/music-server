@@ -5,19 +5,23 @@ class GroupsController < ApplicationController
 
   def index
     groups = Group.all.page(params[:page]).per(10)
+    render json: GroupBlueprint.render(groups)
   end
 
   def show
     group = Group.find(params[:id])
+    render json: GroupBlueprint.render(group, view: :with_playlists)
   end
  
   def create
     @group = @user.owned_groups.create(group_params)
     @group.users << @user
+    render json: GroupBlueprint.render(@group)
   end
   
   def update
     @group.update(group_params)
+    render json: GroupBlueprint.render(@group)
   end
   
   def destroy

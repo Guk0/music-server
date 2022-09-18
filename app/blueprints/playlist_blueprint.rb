@@ -1,7 +1,8 @@
 class PlaylistBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :title, :list_type, :owner_type, :owner_id
+  fields :title, :list_type
+	association :owner, blueprint: ->(owner) { owner.blueprint }
 
   view :detail do
     association :tracks, blueprint: TrackBlueprint, view: :playlist

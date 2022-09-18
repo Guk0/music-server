@@ -1,6 +1,7 @@
 #! /bin/sh
 
 ./sh/wait-for-services.sh
+bundle install
 ./sh/prepare-db.sh
 # bundle exec puma -C config/puma.rb
 

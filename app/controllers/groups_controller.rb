@@ -1,6 +1,7 @@
 class GroupsController < ApplicationController
   before_action :load_user, only: [:create, :update, :destroy]
   before_action :load_group, only: [:update, :destroy]
+  # authenticate_user를 통해 유저가 그룹의 소유자인지 확인
   before_action -> { authenticate_user(@group, @user) }, only: [:update, :destroy]
 
   def index

@@ -59,7 +59,7 @@ FactoryBot.define do
 
   factory :playlist do
     for_user
-    list_type { "default" }
+    list_type { "my_album" }
     title { "title" }
 
     trait :for_group do

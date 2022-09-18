@@ -7,20 +7,8 @@ RSpec.describe "Playlists", type: :request do
     end
 
     it "returns http success" do
-      get playlists_path(owner_id: @playlist.owner.id, owner_type: "user", list_type: "default")
+      get playlists_path
       expect(response).to have_http_status(:success)
-    end
-
-    it "raise RecordNotFound exception" do
-      expect {
-        get playlists_path(owner_id: nil, owner_type: "user", list_type: "default")
-      }.to raise_error(ActiveRecord::RecordNotFound)
-    end
-
-    it "raise KeyError exception" do
-      expect {
-        get playlists_path(owner_id: 5, owner_type: nil, list_type: "default")
-      }.to raise_error(KeyError)
     end
   end
 
@@ -30,7 +18,7 @@ RSpec.describe "Playlists", type: :request do
     end
 
     it "returns http success" do      
-      get playlist_path(owner_id: @playlist.owner.id, owner_type: "user", id: @playlist.id)
+      get playlist_path(id: @playlist.id)
       expect(response).to have_http_status(:success)
     end
   end
@@ -57,6 +45,13 @@ RSpec.describe "Playlists", type: :request do
             post playlists_path, params: { playlist: playlist_params, owner_type: "user", owner_id: nil }
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
+
+        it "raise KeyError exception" do
+          playlist_params = FactoryBot.attributes_for(:playlist)          
+          expect {
+            post playlists_path, params: { playlist: playlist_params, owner_type: nil, owner_id: @playlist.owner.id }
+          }.to raise_error(KeyError)
+        end  
       end
     end
   end

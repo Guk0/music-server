@@ -1,5 +1,5 @@
 class PlaylistsController < ApplicationController
-  before_action :load_owner, only: [:create, :update, :destroy]
+  before_action :load_owner, only: [:my_playlist, :create, :update, :destroy]
   before_action :load_playlist, only: [:update, :destroy]
 
   def index
@@ -10,6 +10,11 @@ class PlaylistsController < ApplicationController
   def show # tracks과 함께 보여줘야함.
     playlist = Playlist.my_album.find(params[:id])
     render json: PlaylistBlueprint.render(playlist, view: :detail)
+  end
+
+  def my_playlist
+    playlists = @owner.playlists.page(params[:page]).per(10)
+    render json: PlaylistBlueprint.render(playlists)
   end
 
   def create

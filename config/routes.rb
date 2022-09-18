@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  resources :playlists
-  resources :playlist_tracks
+  resources :playlists do
+    get :my_playlist, on: :collection
+  end
+  resources :playlist_tracks, only: [:create, :destroy]
   resources :groups
-  resources :user_groups
+  resources :user_groups, only: [:create, :destroy]
   resources :albums
   resources :artists
   resources :tracks

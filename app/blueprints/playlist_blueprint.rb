@@ -4,7 +4,7 @@ class PlaylistBlueprint < Blueprinter::Base
   fields :title, :list_type
 
   view :with_owner do
-    association :owner, blueprint: ->(playlist) { playlist.owner.blueprint }
+    association :owner, blueprint: -> (owner) { owner.blueprint }
   end
 
   view :detail do

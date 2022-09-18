@@ -44,7 +44,7 @@ class GenerateSeed
     p "generate group"
     @users.each_with_index do |user, index|
       group = Group.create!(
-        name: "group-#{index}",
+        name: "group-#{index+1}",
         owner: user,
       )
       @groups.append(group)

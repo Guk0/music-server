@@ -29,6 +29,8 @@ ko:
         album_name: "앨범 이름"
         album: "앨범"
         artist: "가수"
+      user_group:
+        user: "사용자"
 
     errors:
       format: "%{attribute} %{message}"
@@ -65,3 +67,7 @@ ko:
               blank: "항목이 비어있습니다"
             album_name: 
               blank: "항목이 비어있습니다"
+        user_group:
+          attributes:
+            user:
+              taken: "는 이미 그룹에 존재합니다."

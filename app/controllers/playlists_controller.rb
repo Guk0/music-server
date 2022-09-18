@@ -7,12 +7,13 @@ class PlaylistsController < ApplicationController
     render json: PlaylistBlueprint.render(playlists)
   end
   
-  def show
+  def show # tracks과 함께 보여줘야함.
     playlist = Playlist.my_album.find(params[:id])
     render json: PlaylistBlueprint.render(playlist, view: :detail)
   end
 
   def create
+    # owner can create only my_album type in this action.
     playlist = @owner.playlists.my_album.create(playlist_params)
     render json: PlaylistBlueprint.render(playlist)
   end

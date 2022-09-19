@@ -146,6 +146,182 @@ paths:
       responses:
         '200':
           description: successful
+  "/groups":
+    get:
+      summary: list groups
+      tags:
+      - group
+      parameters:
+      - name: page
+        in: query
+        description: page
+        example: 1
+        required: false
+        schema:
+          type: string
+      description: group 리스트를 가져옵니다. 본인이 속한 group외의 group도 볼 수 있습니다.
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create group
+      tags:
+      - group
+      parameters:
+      - name: user_id
+        in: query
+        description: user_id
+        schema:
+          type: integer
+      description: group를 생성합니다. name은 필수입니다. <br> user_id를 받아 해당 user를 group의 owner로
+        지정합니다.(추후 auth기능 추가시 변경) <br> 그룹 생성 시 그룹의 playlist(default type)가 생성됩니다.
+      responses:
+        '200':
+          description: group created
+        '422':
+          description: failed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/group_object"
+  "/groups/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show group
+      tags:
+      - group
+      description: 개별 group을 조회합니다. 본인이 속한 group외의 group도 볼 수 있습니다.
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update group
+      tags:
+      - group
+      description: group을 수정합니다. group의 owner만 수정할 수 있습니다.
+      parameters:
+      - name: user_id
+        in: query
+        description: user_id
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/group_object"
+    delete:
+      summary: delete group
+      tags:
+      - group
+      parameters:
+      - name: user_id
+        in: query
+        description: user_id
+        schema:
+          type: integer
+      description: group을 삭제합니다. group의 owner만 삭제할 수 있습니다.
+      responses:
+        '200':
+          description: successful
+  "/playlists":
+    get:
+      summary: list playlists
+      tags:
+      - playlist
+      parameters:
+      - name: page
+        in: query
+        description: page
+        example: 1
+        required: false
+        schema:
+          type: string
+      description: playlist 리스트를 가져옵니다. 본인이 속한 playlist외의 playlist도 볼 수 있습니다.
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create playlist
+      tags:
+      - playlist
+      parameters:
+      - name: user_id
+        in: query
+        description: user_id
+        schema:
+          type: integer
+      description: playlist를 생성합니다. name은 필수입니다. user_id를 받아 해당 user를 playlist의 owner로
+        지정합니다.(추후 auth기능 추가시 변경)
+      responses:
+        '200':
+          description: playlist created
+        '422':
+          description: failed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/playlist_object"
+  "/playlists/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show playlist
+      tags:
+      - playlist
+      description: 개별 playlist을 조회합니다. 본인이 속한 playlist외의 playlist도 볼 수 있습니다.
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update playlist
+      tags:
+      - playlist
+      description: playlist을 수정합니다. playlist의 owner만 수정할 수 있습니다.
+      parameters:
+      - name: user_id
+        in: query
+        description: user_id
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/playlist_object"
+    delete:
+      summary: delete playlist
+      tags:
+      - playlist
+      parameters:
+      - name: user_id
+        in: query
+        description: user_id
+        schema:
+          type: integer
+      description: playlist을 삭제합니다. playlist의 owner만 삭제할 수 있습니다.
+      responses:
+        '200':
+          description: successful
 servers:
 - url: http://localhost:3000
   variables:
@@ -179,3 +355,25 @@ components:
               example: 아이유
       required:
       - name
+    group_object:
+      type: object
+      properties:
+        artist:
+          type: object
+          properties:
+            name:
+              type: string
+              example: 그룹1
+      required:
+      - name
+    playlist_object:
+      type: object
+      properties:
+        artist:
+          type: object
+          properties:
+            title:
+              type: string
+              example: 내 앨범1
+      required:
+      - title

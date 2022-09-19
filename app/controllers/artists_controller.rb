@@ -2,7 +2,7 @@ class ArtistsController < ApplicationController
   before_action :load_artist, only: [:show, :update, :destroy]
   
   def index 
-    @artists = Artist.page(params[:page]).per(100)
+    @artists = Artist.page(params[:page]).per(10)
     render json: ArtistBlueprint.render(@artists)
   end
 

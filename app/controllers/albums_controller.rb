@@ -2,7 +2,7 @@ class AlbumsController < ApplicationController
   before_action :load_album, only: [:show, :update, :destroy]
   
   def index 
-    @albums = Album.page(params[:page]).per(100)
+    @albums = Album.page(params[:page]).per(10)
     render json: AlbumBlueprint.render(@albums)
   end
 

@@ -61,7 +61,30 @@ RSpec.configure do |config|
             },
             required: [ 'name' ]
           },
-          
+          group_object: {
+            type: :object,
+            properties: {
+              artist: {
+                type: :object,
+                properties: {
+                  name: { type: :string, example: "그룹1" },
+                }
+              }
+            },
+            required: [ 'name' ]
+          },
+          playlist_object: {
+            type: :object,
+            properties: {
+              artist: {
+                type: :object,
+                properties: {
+                  title: { type: :string, example: "내 앨범1" },
+                }
+              }
+            },
+            required: [ 'title' ]
+          },
         }
       }
     }

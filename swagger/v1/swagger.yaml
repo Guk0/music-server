@@ -34,8 +34,6 @@ paths:
       responses:
         '200':
           description: album created
-        '422':
-          description: album failed
       requestBody:
         content:
           application/json:
@@ -75,7 +73,7 @@ paths:
       tags:
       - Album
       responses:
-        '200':
+        '204':
           description: successful
   "/artists":
     get:
@@ -101,10 +99,8 @@ paths:
       parameters: []
       description: artist를 생성합니다. name은 필수입니다.
       responses:
-        '200':
+        '201':
           description: artist created
-        '422':
-          description: failed
       requestBody:
         content:
           application/json:
@@ -144,7 +140,7 @@ paths:
       tags:
       - Artist
       responses:
-        '200':
+        '204':
           description: successful
   "/groups":
     get:
@@ -232,7 +228,7 @@ paths:
           type: integer
       description: group을 삭제합니다. group의 owner만 삭제할 수 있습니다.
       responses:
-        '200':
+        '204':
           description: successful
   "/playlists":
     get:
@@ -247,7 +243,8 @@ paths:
         required: false
         schema:
           type: string
-      description: playlist 리스트를 가져옵니다. 본인이 속한 playlist외의 playlist도 볼 수 있습니다.
+      description: playlist 리스트를 가져옵니다. my_album(내앨범) 타입의 playlist만 조회합니다. <br> 타인의
+        playlist를 조회할 수 있습니다.
       responses:
         '200':
           description: successful
@@ -256,23 +253,69 @@ paths:
       tags:
       - playlist
       parameters:
+      - name: owner_id
+        in: query
+        description: user_id or group_id
+        required: true
+        schema:
+          type: integer
+      - name: owner_type
+        in: query
+        description: user or group
+        required: true
+        schema:
+          type: integer
       - name: user_id
         in: query
         description: user_id
+        required: true
         schema:
           type: integer
-      description: playlist를 생성합니다. name은 필수입니다. user_id를 받아 해당 user를 playlist의 owner로
-        지정합니다.(추후 auth기능 추가시 변경)
+      description: playlist를 생성합니다. title은 필수입니다. <br> owner(polymorphic. group or
+        user)의 playlist를 생성합니다. <br> my_album 타입의 playlist만 생성할 수 있습니다.
       responses:
         '200':
-          description: playlist created
-        '422':
-          description: failed
+          description: create playlist
       requestBody:
         content:
           application/json:
             schema:
               "$ref": "#/components/schemas/playlist_object"
+  "/playlists/my_playlist":
+    get:
+      summary: get my_playlists
+      tags:
+      - playlist
+      parameters:
+      - name: page
+        in: query
+        description: page
+        example: 1
+        required: false
+        schema:
+          type: string
+      - name: owner_id
+        in: query
+        description: user_id or group_id
+        required: true
+        schema:
+          type: integer
+      - name: owner_type
+        in: query
+        description: user or group
+        required: true
+        schema:
+          type: integer
+      - name: user_id
+        in: query
+        description: user_id
+        required: true
+        schema:
+          type: integer
+      description: 나 혹은 내가 속한 그룹의 playlist를 조회합니다.
+      responses:
+        '200':
+          description: successful
   "/playlists/{id}":
     parameters:
     - name: id
@@ -285,7 +328,8 @@ paths:
       summary: show playlist
       tags:
       - playlist
-      description: 개별 playlist을 조회합니다. 본인이 속한 playlist외의 playlist도 볼 수 있습니다.
+      description: 개별 playlist 리스트를 가져옵니다. my_album(내앨범) 타입의 playlist만 조회합니다. <br>
+        타인의 playlist를 조회할 수 있습니다.
       responses:
         '200':
           description: successful
@@ -293,11 +337,25 @@ paths:
       summary: update playlist
       tags:
       - playlist
-      description: playlist을 수정합니다. playlist의 owner만 수정할 수 있습니다.
+      description: playlist를 수정합니다. title은 필수입니다. <br> owner(polymorphic. group or
+        user)의 playlist를 수정합니다. <br> my_album 타입의 playlist만 수정할 수 있습니다.
       parameters:
+      - name: owner_id
+        in: query
+        description: user_id or group_id
+        required: true
+        schema:
+          type: integer
+      - name: owner_type
+        in: query
+        description: user or group
+        required: true
+        schema:
+          type: integer
       - name: user_id
         in: query
         description: user_id
+        required: true
         schema:
           type: integer
       responses:
@@ -313,14 +371,27 @@ paths:
       tags:
       - playlist
       parameters:
+      - name: owner_id
+        in: query
+        description: user_id or group_id
+        required: true
+        schema:
+          type: integer
+      - name: owner_type
+        in: query
+        description: user or group
+        required: true
+        schema:
+          type: integer
       - name: user_id
         in: query
         description: user_id
+        required: true
         schema:
           type: integer
-      description: playlist을 삭제합니다. playlist의 owner만 삭제할 수 있습니다.
+      description: playlist을 삭제합니다.
       responses:
-        '200':
+        '204':
           description: successful
 servers:
 - url: http://localhost:3000

@@ -15,7 +15,7 @@ class GroupsController < ApplicationController
   end
  
   def create
-    @group = @user.owned_groups.create(group_params)
+    @group = @user.owned_groups.create!(group_params)
     @group.users << @user
     render json: GroupBlueprint.render(@group)
   end

@@ -1,6 +1,10 @@
 class PlaylistsController < ApplicationController
   before_action :load_owner, only: [:my_playlist, :create, :update, :destroy]
+  before_action :load_user, only: [:my_playlist, :create, :update, :destroy]
+  # TODO my_playlist와 create에 @owner에 대한 검증이 필요함. @owner == user 인지.
+  # before_action -> { authenticate_user(@owner, @user) }, only: [:my_playlist, :create]
   before_action :load_playlist, only: [:update, :destroy]
+  before_action -> { authenticate_user(@playlist, @user) }, only: [:update, :destroy]
 
   def index
     playlists = Playlist.my_album.page(params[:page]).per(10)
@@ -38,8 +42,11 @@ class PlaylistsController < ApplicationController
     # owner_type이 올바르지 않다면 key_error.
     # owner가 존재하지 않다면 ActiveRecord::RecordNotFound.
     # exception 발생시 json return 함수 필요함.
-    # 로그인을 추가할 시 owner에 대한 추가적인 검증이 필요함.
     @owner = Playlist::PERMITTED_OWNER.fetch(params[:owner_type]&.to_sym).find(params[:owner_id])
+  end
+
+  def load_user
+    @user = User.find(params[:user_id])
   end
 
   def load_playlist

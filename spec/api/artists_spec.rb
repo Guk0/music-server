@@ -8,13 +8,6 @@ RSpec.describe 'artists', type: :request do
       description 'artist 리스트를 가져옵니다.'
       
       response(200, 'successful') do
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
         run_test!
       end
     end
@@ -24,13 +17,8 @@ RSpec.describe 'artists', type: :request do
       parameter name: :artist, in: :body, schema: { '$ref' => '#/components/schemas/artist_object' }
 
       description 'artist를 생성합니다. name은 필수입니다.'
-      response 200, 'artist created' do
+      response 201, 'artist created' do
         let(:artist) { { name: 'artist name' } }
-        run_test!
-      end
-
-      response 422, 'failed' do
-        let(:artist) { { name: '' } }
         run_test!
       end
     end
@@ -39,19 +27,18 @@ RSpec.describe 'artists', type: :request do
   path '/artists/{id}' do
     parameter name: 'id', in: :path, type: :string, description: 'id'
 
+    before do
+      @artist = FactoryBot.create(:artist)
+    end
+
     get 'show artist' do
       tags 'Artist'
       description '개별 artist을 조회합니다.'
-      response(200, 'successful') do
-        let(:id) { '123' }
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+
+      response(200, 'successful') do
+        let(:id) { @artist.id }
+
         run_test!
       end
     end
@@ -61,31 +48,18 @@ RSpec.describe 'artists', type: :request do
       parameter name: :artist, in: :body, schema: { '$ref' => '#/components/schemas/artist_object' }
 
       response(200, 'successful') do
-        let(:id) { '123' }
+        let(:id) { @artist.id }
+        let(:artist) { { name: 'artist name' } }
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
         run_test!
       end
     end
 
     delete 'delete artist' do
       tags 'Artist'
-      response(200, 'successful') do
-        let(:id) { '123' }
+      response(204, 'successful') do
+        let(:id) { @artist.id }
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
         run_test!
       end
     end

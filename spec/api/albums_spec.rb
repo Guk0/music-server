@@ -8,13 +8,6 @@ RSpec.describe 'albums', type: :request do
       description 'album 리스트를 가져옵니다.'
       
       response(200, 'successful') do
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
         run_test!
       end
     end
@@ -22,15 +15,15 @@ RSpec.describe 'albums', type: :request do
     post 'create album' do
       tags 'Album'
       parameter name: :album, in: :body, schema: { '$ref' => '#/components/schemas/album_object' }
-
+  
       description '앨범을 생성합니다. artist_id와 title은 필수입니다.'
-      response 200, 'album created' do
-        let(:album) { { title: 'album title', artist_id: 1 } }
-        run_test!
+
+      before do
+        @artist = FactoryBot.create(:artist)
       end
 
-      response 422, 'album failed' do
-        let(:album) { { title: 'album title' } }
+      response 200, 'album created' do
+        let(:album) { { title: 'album title', artist_id: @artist.id } }
         run_test!
       end
     end
@@ -39,19 +32,17 @@ RSpec.describe 'albums', type: :request do
   path '/albums/{id}' do
     parameter name: 'id', in: :path, type: :string, description: 'id'
 
+    before do
+      @album = FactoryBot.create(:album)
+      @artist = FactoryBot.create(:artist)
+    end
+
     get 'show album' do
       tags 'Album'
       description '개별 album을 조회합니다. artist와 track list를 포함합니다.'
-      response(200, 'successful') do
-        let(:id) { '123' }
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+      response(200, 'successful') do
+        let(:id) { @album.id }
         run_test!
       end
     end
@@ -61,31 +52,19 @@ RSpec.describe 'albums', type: :request do
       parameter name: :album, in: :body, schema: { '$ref' => '#/components/schemas/album_object' }
 
       response(200, 'successful') do
-        let(:id) { '123' }
+        let(:id) { @album.id }
+        let(:album) { { title: 'album title', artist_id: @artist.id } }
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
         run_test!
       end
     end
 
     delete 'delete album' do
       tags 'Album'
-      response(200, 'successful') do
-        let(:id) { '123' }
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+      response(204, 'successful') do
+        let(:id) { @album.id }
+
         run_test!
       end
     end

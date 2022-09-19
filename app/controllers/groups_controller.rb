@@ -1,8 +1,6 @@
 class GroupsController < ApplicationController
-  before_action :load_user, only: [:create, :update, :destroy]
-  before_action :load_group, only: [:update, :destroy]
-  # authenticate_user를 통해 유저가 그룹의 소유자인지 확인
-  before_action -> { authenticate_user(@group, @user) }, only: [:update, :destroy]
+  before_action :current_user, only: [:create, :update, :destroy]
+  before_action :load_group, only: [:update, :destroy]  
 
   def index
     groups = Group.all.page(params[:page]).per(10)
@@ -15,28 +13,26 @@ class GroupsController < ApplicationController
   end
  
   def create
-    @group = @user.owned_groups.create!(group_params)
-    @group.users << @user
+    @group = @current_user.owned_groups.create!(group_params)
+    @group.users << @current_user
     render json: GroupBlueprint.render(@group)
   end
   
   def update
+    authorize @group
     @group.update(group_params)
     render json: GroupBlueprint.render(@group)
   end
   
   def destroy
+    authorize @group
     @group.destroy
     render json: { message: "successfully destroy object" }, status: 204
   end
 
   private
-  def load_user
-    @user = User.find(params[:user_id])
-  end
-
   def load_group
-    @group = @user.groups.find(params[:id])
+    @group = @current_user.groups.find(params[:id])
   end
 
   def group_params

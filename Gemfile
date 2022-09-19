@@ -15,6 +15,7 @@ gem 'oj'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 gem 'rswag'
+gem 'pundit'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

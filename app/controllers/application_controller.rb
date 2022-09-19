@@ -1,9 +1,15 @@
 class ApplicationController < ActionController::API
+  include Pundit::Authorization
+
   Forbidden = Class.new(StandardError)
 
   rescue_from ActiveRecord::RecordInvalid, with: :rescue_invalid_record
   rescue_from ApplicationController::Forbidden, with: :rescue_forbidden
+  rescue_from Pundit::NotAuthorizedError, with: :rescue_forbidden 
 
+  def current_user
+    @current_user = User.find(params[:user_id])
+  end
 
   protected
   def rescue_forbidden(e)

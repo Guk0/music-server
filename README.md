@@ -30,7 +30,7 @@
 - Group (그룹)
   - group 생성 시 default 타입(재생목록)의 playlist를 생성합니다.
   - group을 생성한 사용자가 group의 owner가 됩니다.
-  - group의 owner만 group을 생성하고 삭제할 수 있습니다. authenticate_user로 체크합니다.
+  - group의 owner만 group을 수정, 삭제할 수 있습니다. authenticate_user로 체크합니다.
 - UserGroup (그룹 참여 사용자)
   - group의 owner만 group에 사용자를 추가, 삭제할 수 있습니다.
   - group에 동일한 사용자가 중복하여 참여할 수 없습니다.
@@ -46,7 +46,7 @@
   - 곡의 중복이 가능합니다.
 - Track (음원)
   - track의 필터링을 위해 elasticsearch를 사용하였습니다.
-  - track에 대한 필터링은 title, artist_name, album_name, artist_id, album_id로 가능합니다.
+  - track에 대한 필터링은 q(title, artist_name, album_name), artist_id, album_id로 가능합니다.
   - track에 대한 정렬은 created_at, likes_count로 가능합니다.
 - Album (앨범)
   - title 변경 시 album에 속한 track들의 album_name이 변경됩니다.
@@ -118,7 +118,7 @@
 ### tracks
 - GET /tracks
   - elasticsearch에서 track을 필터링합니다.
-  - q, artist_id, album_id, sort, page를 params로 받습니다.
+  - q(title, artist_name, album_name), artist_id, album_id, sort, page를 params로 받습니다.
   - sort에는 likes_count, created_at를 사용할 수 있습니다.
 - GET /tracks:id
 - POST /tracks

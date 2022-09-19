@@ -10,17 +10,17 @@ class PlaylistTracksController < ApplicationController
 
 
   def destroy
-    @playlist.playlist_tracks.find(params[:id]).destroy
+    @playlist.playlist_tracks.find(params[:id]).destroy!
     render json: { message: "successfully destroy object" }, status: 204
   end
 
   private
   def load_playlist
-    @playlist = Playlist.find(params.dig(:playlist_track, :playlist_id))
+    @playlist = Playlist.find(params[:playlist_id])
   end
 
   def load_user
-    @user = User.find(params.dig(:playlist_track, :user_id))
+    @user = User.find(params[:user_id])
   end
   
   def playlist_track_params

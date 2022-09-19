@@ -85,6 +85,20 @@ RSpec.configure do |config|
             },
             required: [ 'title' ]
           },
+          playlist_track_object: {
+            type: :object,
+            properties: {
+              artist: {
+                type: :object,
+                properties: {
+                  playlist_id: { type: :integer, example: 1 },
+                  track_id: { type: :integer, example: 1 },
+                  user_id: { type: :integer, example: 1 },
+                }
+              }
+            },
+            required: [ 'title' ]
+          },
         }
       }
     }

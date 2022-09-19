@@ -25,7 +25,7 @@ RUN bundle install
 
 COPY . /music-api
 
-CMD ["docker/startup.sh"]
+CMD ["sh/startup.sh"]
 
 # COPY ./entrypoints/app-entrypoint.sh /usr/bin/
 # RUN chmod +x /usr/bin/app-entrypoint.sh

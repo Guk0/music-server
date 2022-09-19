@@ -1,10 +1,8 @@
 #! /bin/sh
 
-./docker/wait-for-services.sh
-
+./sh/wait-for-services.sh
 bundle install
-
-./docker/prepare-db.sh
+./sh/prepare-db.sh
 # bundle exec puma -C config/puma.rb
 
 if [ -f tmp/pids/server.pid ]; then

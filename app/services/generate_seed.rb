@@ -49,7 +49,6 @@ class GenerateSeed
       )
       @groups.append(group)
       group.users << user
-      group.users << User.all.sample(2)
     end
   end
 

@@ -3,7 +3,7 @@ class AlbumsController < ApplicationController
   
   def index 
     @albums = Album.page(params[:page]).per(100)
-    render json: AlbumBlueprint.render(@albums, view: :detail)
+    render json: AlbumBlueprint.render(@albums)
   end
 
   def show

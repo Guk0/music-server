@@ -33,7 +33,7 @@ RSpec.describe "Groups", type: :request do
         it "creates a new group and user_group" do
           group_params = FactoryBot.attributes_for(:group)
           expect {
-            post groups_path, params: { group: group_params, user_id: @user.id }
+            post groups_path, params: { group: group_params }, headers: { Authorization: @user.id }
           }.to change(Group, :count).by(1)
 
           expect(Group.last.users.last).to eq(@user)
@@ -45,7 +45,7 @@ RSpec.describe "Groups", type: :request do
         it "does not create a new group" do
           group_params = FactoryBot.attributes_for(:group, :invalid)          
           expect {
-            post groups_path, params: { group: group_params, user_id: @user.id }
+            post groups_path, params: { group: group_params }, headers: { Authorization: @user.id }
           }.to change(Group, :count).by(0)
         end
       end
@@ -61,7 +61,7 @@ RSpec.describe "Groups", type: :request do
 
     it "deletes a group" do
       expect {
-        delete group_path(@group.id, user_id: @owner.id)
+        delete group_path(@group.id), headers: { Authorization: @owner.id }
       }.to change(Group, :count).by(-1)
     end
   end
@@ -76,7 +76,7 @@ RSpec.describe "Groups", type: :request do
 
     it "updates a group" do
       group_params = FactoryBot.attributes_for(:group, name: "new name")
-      patch group_path(@group.id), params: { group: group_params, user_id: @owner.id }
+      patch group_path(@group.id), params: { group: group_params }, headers: { Authorization: @owner.id }
 
       expect(@group.reload.name).to eq("new name")
     end
@@ -84,7 +84,7 @@ RSpec.describe "Groups", type: :request do
     it "does not updates a group" do
       # @user is not owner of group
       group_params = FactoryBot.attributes_for(:group, name: "new new name")
-      patch group_path(@group.id), params: { group: group_params, user_id: @user.id }
+      patch group_path(@group.id), params: { group: group_params }
 
       expect(response).to have_http_status(403)
       expect(@group.reload.name).not_to eq("new new name")

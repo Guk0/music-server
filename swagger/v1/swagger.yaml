@@ -1,5 +1,5 @@
 ---
-openapi: 3.0.1
+swagger: '2.0'
 info:
   title: music API
   version: v1
@@ -16,11 +16,10 @@ paths:
       parameters:
       - name: page
         in: query
+        type: string
         description: page
         example: 1
         required: false
-        schema:
-          type: string
       description: album 리스트를 가져옵니다.
       responses:
         '200':
@@ -29,24 +28,22 @@ paths:
       summary: create album
       tags:
       - Album
-      parameters: []
+      parameters:
+      - name: album
+        in: body
+        schema:
+          "$ref": "#/components/schemas/album_object"
       description: 앨범을 생성합니다. artist_id와 title은 필수입니다.
       responses:
         '200':
           description: album created
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/album_object"
   "/albums/{id}":
     parameters:
     - name: id
       in: path
+      type: string
       description: id
       required: true
-      schema:
-        type: string
     get:
       summary: show album
       tags:
@@ -59,15 +56,14 @@ paths:
       summary: update album
       tags:
       - Album
-      parameters: []
+      parameters:
+      - name: album
+        in: body
+        schema:
+          "$ref": "#/components/schemas/album_object"
       responses:
         '200':
           description: successful
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/album_object"
     delete:
       summary: delete album
       tags:
@@ -83,11 +79,10 @@ paths:
       parameters:
       - name: page
         in: query
+        type: string
         description: page
         example: 1
         required: false
-        schema:
-          type: string
       description: artist 리스트를 가져옵니다.
       responses:
         '200':
@@ -96,24 +91,22 @@ paths:
       summary: create artist
       tags:
       - Artist
-      parameters: []
+      parameters:
+      - name: artist
+        in: body
+        schema:
+          "$ref": "#/components/schemas/artist_object"
       description: artist를 생성합니다. name은 필수입니다.
       responses:
         '201':
           description: artist created
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/artist_object"
   "/artists/{id}":
     parameters:
     - name: id
       in: path
+      type: string
       description: id
       required: true
-      schema:
-        type: string
     get:
       summary: show artist
       tags:
@@ -126,15 +119,14 @@ paths:
       summary: update artist
       tags:
       - Artist
-      parameters: []
+      parameters:
+      - name: artist
+        in: body
+        schema:
+          "$ref": "#/components/schemas/artist_object"
       responses:
         '200':
           description: successful
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/artist_object"
     delete:
       summary: delete artist
       tags:
@@ -150,11 +142,10 @@ paths:
       parameters:
       - name: page
         in: query
+        type: string
         description: page
         example: 1
         required: false
-        schema:
-          type: string
       description: group 리스트를 가져옵니다. 본인이 속한 group외의 group도 볼 수 있습니다.
       responses:
         '200':
@@ -164,32 +155,29 @@ paths:
       tags:
       - group
       parameters:
-      - name: user_id
-        in: query
-        description: group의 소유자로 등록하기 위해 사용
+      - name: Authorization
+        in: header
+        type: integer
+        description: 사용자 인증(user_id 입력)
         required: true
+      - name: group
+        in: body
         schema:
-          type: integer
-      description: group를 생성합니다. name은 필수입니다. <br> user_id를 받아 해당 user를 group의 owner로
-        지정합니다.(추후 auth기능 추가시 변경) <br> 그룹 생성 시 그룹의 playlist(default type)가 생성됩니다.
+          "$ref": "#/components/schemas/group_object"
+      description: group를 생성합니다. name은 필수입니다. <br> 그룹 생성 시 그룹의 playlist(default type)가
+        생성됩니다.
       responses:
         '200':
           description: group created
         '422':
           description: failed
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/group_object"
   "/groups/{id}":
     parameters:
     - name: id
       in: path
+      type: string
       description: id
       required: true
-      schema:
-        type: string
     get:
       summary: show group
       tags:
@@ -204,31 +192,28 @@ paths:
       - group
       description: group을 수정합니다. group의 owner만 수정할 수 있습니다.
       parameters:
-      - name: user_id
-        in: query
-        description: 사용자 검증을 위해 사용
+      - name: Authorization
+        in: header
+        type: integer
+        description: 사용자 인증(user_id 입력)
         required: true
+      - name: group
+        in: body
         schema:
-          type: integer
+          "$ref": "#/components/schemas/group_object"
       responses:
         '200':
           description: successful
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/group_object"
     delete:
       summary: delete group
       tags:
       - group
       parameters:
-      - name: user_id
-        in: query
-        description: 사용자 검증을 위해 사용
+      - name: Authorization
+        in: header
+        type: integer
+        description: 사용자 인증(user_id 입력)
         required: true
-        schema:
-          type: integer
       description: group을 삭제합니다. group의 owner만 삭제할 수 있습니다.
       responses:
         '204':
@@ -239,36 +224,32 @@ paths:
       tags:
       - playlist_track
       parameters:
+      - name: playlist_track
+        in: body
+        schema:
+          "$ref": "#/components/schemas/playlist_track_object"
       - name: user_id
         in: query
+        type: integer
         description: 사용자 검증을 위해 사용
         required: true
-        schema:
-          type: integer
       - name: playlist_id
         in: query
+        type: integer
         description: 사용자 검증을 위해 사용
         required: true
-        schema:
-          type: integer
       description: playlist_track를 생성합니다. <br> body의 user_id는 playlist_track을 생성한
         사람입니다. <br> 사용자 검증을 위하여 user_id와 playlist_id를 추가로 받습니다.
       responses:
         '201':
           description: create playlist_track
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/playlist_track_object"
   "/playlist_tracks/{id}":
     parameters:
     - name: id
       in: path
+      type: string
       description: id
       required: true
-      schema:
-        type: string
     delete:
       summary: delete playlist_track
       tags:
@@ -276,16 +257,14 @@ paths:
       parameters:
       - name: user_id
         in: query
+        type: integer
         description: 사용자 검증을 위해 사용
         required: true
-        schema:
-          type: integer
       - name: playlist_id
         in: query
+        type: integer
         description: 사용자 검증을 위해 사용
         required: true
-        schema:
-          type: integer
       description: playlist_track을 삭제합니다.
       responses:
         '204':
@@ -298,11 +277,10 @@ paths:
       parameters:
       - name: page
         in: query
+        type: string
         description: page
         example: 1
         required: false
-        schema:
-          type: string
       description: playlist 리스트를 가져옵니다. my_album(내앨범) 타입의 playlist만 조회합니다. <br> 타인의
         playlist를 조회할 수 있습니다.
       responses:
@@ -313,34 +291,30 @@ paths:
       tags:
       - playlist
       parameters:
+      - name: playlist
+        in: body
+        schema:
+          "$ref": "#/components/schemas/playlist_object"
       - name: owner_id
         in: query
+        type: integer
         description: user_id or group_id
         required: true
-        schema:
-          type: integer
       - name: owner_type
         in: query
+        type: string
         description: user or group
         required: true
-        schema:
-          type: string
       - name: user_id
         in: query
+        type: integer
         description: 사용자 검증을 위해 사용
         required: true
-        schema:
-          type: integer
       description: playlist를 생성합니다. title은 필수입니다. <br> owner(polymorphic. group or
         user)의 playlist를 생성합니다. <br> my_album 타입의 playlist만 생성할 수 있습니다.
       responses:
         '200':
           description: create playlist
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/playlist_object"
   "/playlists/my_playlist":
     get:
       summary: get my_playlists
@@ -349,29 +323,25 @@ paths:
       parameters:
       - name: page
         in: query
+        type: string
         description: page
         example: 1
         required: false
-        schema:
-          type: string
       - name: owner_id
         in: query
+        type: integer
         description: user_id or group_id
         required: true
-        schema:
-          type: integer
       - name: owner_type
         in: query
+        type: string
         description: user or group
         required: true
-        schema:
-          type: string
       - name: user_id
         in: query
+        type: integer
         description: 사용자 검증을 위해 사용
         required: true
-        schema:
-          type: integer
       description: 나 혹은 내가 속한 그룹의 playlist를 조회합니다.
       responses:
         '200':
@@ -380,10 +350,9 @@ paths:
     parameters:
     - name: id
       in: path
+      type: string
       description: id
       required: true
-      schema:
-        type: string
     get:
       summary: show playlist
       tags:
@@ -402,30 +371,26 @@ paths:
       parameters:
       - name: owner_id
         in: query
+        type: integer
         description: user_id or group_id
         required: true
-        schema:
-          type: integer
       - name: owner_type
         in: query
+        type: string
         description: user or group
         required: true
-        schema:
-          type: string
       - name: user_id
         in: query
+        type: integer
         description: 사용자 검증을 위해 사용
         required: true
+      - name: playlist
+        in: body
         schema:
-          type: integer
+          "$ref": "#/components/schemas/playlist_object"
       responses:
         '200':
           description: successful
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/playlist_object"
     delete:
       summary: delete playlist
       tags:
@@ -433,22 +398,19 @@ paths:
       parameters:
       - name: owner_id
         in: query
+        type: integer
         description: user_id or group_id
         required: true
-        schema:
-          type: integer
       - name: owner_type
         in: query
+        type: string
         description: user or group
         required: true
-        schema:
-          type: string
       - name: user_id
         in: query
+        type: integer
         description: 사용자 검증을 위해 사용
         required: true
-        schema:
-          type: integer
       description: playlist을 삭제합니다.
       responses:
         '204':
@@ -461,39 +423,34 @@ paths:
       parameters:
       - name: q
         in: query
+        type: string
         description: search by title or artist_name or album_name
         example: 아이유
         required: false
-        schema:
-          type: string
       - name: artist_id
         in: query
+        type: string
         description: search by artist_id
         example: 1
         required: false
-        schema:
-          type: string
       - name: album_id
         in: query
+        type: string
         description: search by album_id
         example: 1
         required: false
-        schema:
-          type: string
       - name: sort
         in: query
+        type: string
         description: sort by created_at or likes_count
         example: likes_count
         required: false
-        schema:
-          type: string
       - name: page
         in: query
+        type: string
         description: page
         example: 1
         required: false
-        schema:
-          type: string
       description: track 리스트를 가져옵니다. <br> q(title, artist_name, album_name), artist_id,
         album_id, sort, page를 params로 받아 필터링합니다.
       responses:
@@ -503,24 +460,22 @@ paths:
       summary: create track
       tags:
       - track
-      parameters: []
+      parameters:
+      - name: track
+        in: body
+        schema:
+          "$ref": "#/components/schemas/track_object"
       description: track를 생성합니다.
       responses:
         '201':
           description: track created
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/track_object"
   "/tracks/{id}":
     parameters:
     - name: id
       in: path
+      type: string
       description: id
       required: true
-      schema:
-        type: string
     get:
       summary: show track
       tags:
@@ -533,15 +488,14 @@ paths:
       summary: update track
       tags:
       - track
-      parameters: []
+      parameters:
+      - name: track
+        in: body
+        schema:
+          "$ref": "#/components/schemas/track_object"
       responses:
         '200':
           description: successful
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/track_object"
     delete:
       summary: delete track
       tags:
@@ -555,24 +509,21 @@ paths:
       tags:
       - user_group
       parameters:
+      - name: Authorization
+        in: header
+        type: integer
+        description: 사용자 인증(user_id 입력)
+        required: true
       - name: user_id
         in: query
+        type: integer
         description: 그룹에 추가할 사용자
         required: true
-        schema:
-          type: integer
       - name: group_id
         in: query
+        type: integer
         description: 사용자를 추가할 그룹
         required: true
-        schema:
-          type: integer
-      - name: owner_id
-        in: query
-        description: 사용자 검증을 위해 사용
-        required: true
-        schema:
-          type: integer
       description: user_group를 생성합니다. <br> group의 owner만 user_group을 생성할 수 있습니다. <br>
         사용자 검증을 위하여 owner_id를 추가로 받습니다.
       responses:
@@ -582,27 +533,19 @@ paths:
     parameters:
     - name: id
       in: path
+      type: string
       description: id
       required: true
-      schema:
-        type: string
     delete:
       summary: delete user_group
       tags:
       - user_group
       parameters:
-      - name: owner_id
-        in: query
-        description: 사용자 검증을 위해 사용
+      - name: Authorization
+        in: header
+        type: integer
+        description: 사용자 인증(user_id 입력)
         required: true
-        schema:
-          type: integer
-      - name: group_id
-        in: query
-        description: 사용자 검증을 위해 사용
-        required: true
-        schema:
-          type: integer
       description: user_group을 삭제합니다. <br> group의 owner만 user_group을 삭제할 수 있습니다. <br>
         사용자 검증을 위하여 owner_id를 추가로 받습니다.
       responses:
@@ -616,11 +559,10 @@ paths:
       parameters:
       - name: page
         in: query
+        type: string
         description: page
         example: 1
         required: false
-        schema:
-          type: string
       description: user 리스트를 가져옵니다.
       responses:
         '200':
@@ -629,10 +571,9 @@ paths:
     parameters:
     - name: id
       in: path
+      type: string
       description: id
       required: true
-      schema:
-        type: string
     get:
       summary: show user
       tags:

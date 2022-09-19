@@ -8,7 +8,9 @@ class ApplicationController < ActionController::API
   rescue_from Pundit::NotAuthorizedError, with: :rescue_forbidden 
 
   def current_user
-    @current_user = User.find(params[:user_id])
+    User.find(request.headers["Authorization"])
+  rescue
+    raise ApplicationController::Forbidden
   end
 
   protected

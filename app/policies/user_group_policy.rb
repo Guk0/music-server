@@ -1,10 +1,6 @@
-class GroupPolicy < ApplicationPolicy
+class UserGroupPolicy < ApplicationPolicy
   def create?
     record.owner_id == user.id
-  end
-
-  def update?
-    create?
   end
 
   def destroy?

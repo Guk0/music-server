@@ -1,5 +1,4 @@
 class GroupsController < ApplicationController
-  before_action :current_user, only: [:create, :update, :destroy]
   before_action :load_group, only: [:update, :destroy]  
 
   def index
@@ -13,8 +12,8 @@ class GroupsController < ApplicationController
   end
  
   def create
-    @group = @current_user.owned_groups.create!(group_params)
-    @group.users << @current_user
+    @group = current_user.owned_groups.create!(group_params)
+    @group.users << current_user
     render json: GroupBlueprint.render(@group)
   end
   
@@ -32,7 +31,7 @@ class GroupsController < ApplicationController
 
   private
   def load_group
-    @group = @current_user.groups.find(params[:id])
+    @group = current_user.groups.find(params[:id])
   end
 
   def group_params

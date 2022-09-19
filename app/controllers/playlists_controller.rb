@@ -9,9 +9,9 @@ class PlaylistsController < ApplicationController
   end
   
   def show
-    playlist = Playlist.find(params[:id])    
+    playlist = Playlist.find(params[:id])
     authorize playlist if playlist.default?
-    render json: PlaylistBlueprint.render(playlist, view: :detail)
+    render json: PlaylistBlueprint.render(playlist)
   end
 
   def my_playlist

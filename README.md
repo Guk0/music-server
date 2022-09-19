@@ -3,6 +3,7 @@
 ## 환경 세팅
 - docker-compose 기반 프로젝트입니다. docker-compose up 명령어로 실행해주세요.
 - env.docker.example 에서 .example만 지우고 사용하시면 됩니다.
+- bundle install / db create, migrate, seed 명령어는 shell script를 통해 자동으로 실행됩니다.
 - 실행 후 elasticsearch container에 문제 발생시 docker-compose down 한 뒤 재실행 해주세요.
 
 <br>
@@ -12,6 +13,11 @@
 - rswag을 이용, api documentation을 하였습니다.
 - endpoints에 대한 상세한 설명은 아래 링크를 참고하시면 됩니다.
 - docker-compose up 명령어로 실행 후 http://localhost:3000/api-docs/index.html 에서 확인 가능합니다.
+
+<br>
+
+## test
+- rspec을 이용, 테스트 케이스를 작성하였습니다.
 
 <br>
 
@@ -52,6 +58,7 @@
   - playlist의 owner(user, group)에 속하는 user만 생성, 삭제할 수 있습니다.
   - user_id를 통해 추가한 사용자를 알 수 있습니다.
   - 곡의 중복이 가능합니다.
+  - index action을 통해 playlist의 playlist_tracks 및 tracks를 조회할 수 있습니다.
 - Track (음원)
   - track의 필터링을 위해 elasticsearch를 사용하였습니다.
   - track에 대한 필터링은 q(title, artist_name, album_name), artist_id, album_id로 가능합니다.

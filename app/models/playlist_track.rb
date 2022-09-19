@@ -8,7 +8,7 @@ class PlaylistTrack < ApplicationRecord
   private
   def limit_playlist_tracks
     # 생성할때마다 playlist의 counter_cache 칼럼 update 하기 vs 생성시 마다 count 쿼리로 확인하기.
-    playlist_tracks = Playlist.find(playlist_id).playlist_tracks.order(created_at: :desc)
+    playlist_tracks = playlist.playlist_tracks.order(created_at: :desc)
     if playlist_tracks.size > 100
       playlist_tracks.last.destroy
     end

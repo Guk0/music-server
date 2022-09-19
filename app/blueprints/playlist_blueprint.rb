@@ -6,9 +6,4 @@ class PlaylistBlueprint < Blueprinter::Base
   view :with_owner do
     association :owner, blueprint: -> (owner) { owner.blueprint }
   end
-
-  view :detail do
-    include_view :with_owner
-    association :tracks, blueprint: TrackBlueprint, view: :playlist
-  end
 end

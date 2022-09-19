@@ -1,12 +1,17 @@
 class PlaylistTracksController < ApplicationController
   before_action :load_playlist
 
+  def index
+    authorize @playlist if @playlist.default?
+    playlist_tracks = @playlist.playlist_tracks.includes(:track).page(params[:page]).per(10)
+    render json: PlaylistTrackBlueprint.render(playlist_tracks)
+  end
+
   def create
     authorize @playlist
     @playlist_track = PlaylistTrack.create(playlist_track_params)
     render status: :created
   end
-
 
   def destroy
     authorize @playlist

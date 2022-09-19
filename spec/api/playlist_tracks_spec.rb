@@ -2,6 +2,27 @@ require 'swagger_helper'
 
 RSpec.describe 'playlist_tracks', type: :request do
   path '/playlist_tracks' do
+    get 'get playlist_tracks' do
+      tags 'playlist_track'
+      parameter name: :Authorization, in: :header, type: :integer, description: '사용자 인증(user_id 입력)', required: true
+      parameter name: :playlist_id, in: :query, type: :integer, description: 'playlist', required: true
+      parameter name: :page, in: :query, type: :string, description: 'page', example: 1, required: false
+      description 'playlist_track list를 조회합니다. <br> playlist에 속한 playlist_track만 조회합니다. <br> default(플레이리스트) 타입 조회시 사용자 인증을 요구합니다. <br> my_album(내 앨범) 타입은 요구하지 않습니다. '
+
+      before do
+        @playlist = FactoryBot.create(:playlist)
+        @user = @playlist.owner
+      end
+      
+      response 200, 'get playlist_tracks' do
+        let(:Authorization) { @user.id }
+        let(:playlist_id) { @playlist.id }
+
+        run_test!
+      end
+    end
+
+
     post 'create playlist_track' do
       tags 'playlist_track'
       parameter name: :Authorization, in: :header, type: :integer, description: '사용자 인증(user_id 입력)', required: true

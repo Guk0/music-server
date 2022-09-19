@@ -11,6 +11,7 @@ class PlaylistTracksController < ApplicationController
 
   def destroy
     @playlist.playlist_tracks.find(params[:id]).destroy
+    render json: { message: "successfully destroy object" }, status: 204
   end
 
   private

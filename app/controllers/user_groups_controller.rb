@@ -11,6 +11,7 @@ class UserGroupsController < ApplicationController
   
   def destroy
     @user_group.destroy
+    render json: { message: "successfully destroy object" }, status: 204
   end
 
   private

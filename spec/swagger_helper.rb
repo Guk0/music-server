@@ -21,6 +21,8 @@ RSpec.configure do |config|
         title: 'music API',
         version: 'v1'
       },
+      consumes: ['application/json'],
+      produces: ['application/json'],
       paths: {},
       servers: [
         {

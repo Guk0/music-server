@@ -22,6 +22,7 @@ class ArtistsController < ApplicationController
 
   def destroy
     @artist.destroy
+    render json: { message: "successfully destroy object" }, status: 204
   end
   
   private

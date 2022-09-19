@@ -30,6 +30,7 @@ class PlaylistsController < ApplicationController
 
   def destroy
     @playlist.destroy
+    render json: { message: "successfully destroy object" }, status: 204
   end
 
   private

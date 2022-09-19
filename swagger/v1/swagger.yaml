@@ -3,15 +3,20 @@ openapi: 3.0.1
 info:
   title: music API
   version: v1
+consumes:
+- application/json
+produces:
+- application/json
 paths:
   "/albums":
     get:
       summary: list albums
       parameters:
       - name: page
-        in: path
+        in: query
         description: page
-        required: true
+        example: 1
+        required: false
         schema:
           type: string
       description: album 리스트를 가져옵니다.
@@ -24,7 +29,27 @@ paths:
       description: 앨범을 생성합니다. artist_id와 title은 필수입니다.
       responses:
         '200':
-          description: successful
+          description: album created
+        '422':
+          description: album failed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                album:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      example: growing up
+                    artist_id:
+                      type: integer
+                      example: 1
+              required:
+              - title
+              - artist_id
   "/albums/{id}":
     parameters:
     - name: id
@@ -39,18 +64,30 @@ paths:
       responses:
         '200':
           description: successful
-    patch:
-      summary: update album
-      parameters: []
-      responses:
-        '200':
-          description: successful
     put:
       summary: update album
       parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                album:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      example: growing up
+                    artist_id:
+                      type: integer
+                      example: 1
+              required:
+              - title
+              - artist_id
     delete:
       summary: delete album
       responses:

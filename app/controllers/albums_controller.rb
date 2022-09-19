@@ -22,6 +22,7 @@ class AlbumsController < ApplicationController
 
   def destroy
     @album.destroy
+    render json: { message: "successfully destroy object" }, status: 204
   end
   
   private

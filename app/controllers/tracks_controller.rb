@@ -33,6 +33,7 @@ class TracksController < ApplicationController
 
   def destroy
     @track.destroy
+    render json: { message: "successfully destroy object" }, status: 204
   end
   
   private

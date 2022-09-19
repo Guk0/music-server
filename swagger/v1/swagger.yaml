@@ -453,6 +453,194 @@ paths:
       responses:
         '204':
           description: successful
+  "/tracks":
+    get:
+      summary: list tracks
+      tags:
+      - track
+      parameters:
+      - name: q
+        in: query
+        description: search by title or artist_name or album_name
+        example: 아이유
+        required: false
+        schema:
+          type: string
+      - name: artist_id
+        in: query
+        description: search by artist_id
+        example: 1
+        required: false
+        schema:
+          type: string
+      - name: album_id
+        in: query
+        description: search by album_id
+        example: 1
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: sort by created_at or likes_count
+        example: likes_count
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: page
+        example: 1
+        required: false
+        schema:
+          type: string
+      description: track 리스트를 가져옵니다. <br> q(title, artist_name, album_name), artist_id,
+        album_id, sort, page를 params로 받아 필터링합니다.
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create track
+      tags:
+      - track
+      parameters: []
+      description: track를 생성합니다.
+      responses:
+        '201':
+          description: track created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/track_object"
+  "/tracks/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show track
+      tags:
+      - track
+      description: 개별 track을 조회합니다.
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update track
+      tags:
+      - track
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/track_object"
+    delete:
+      summary: delete track
+      tags:
+      - track
+      responses:
+        '204':
+          description: successful
+  "/user_groups":
+    post:
+      summary: create user_group
+      tags:
+      - user_group
+      parameters:
+      - name: user_id
+        in: query
+        description: 그룹에 추가할 사용자
+        required: true
+        schema:
+          type: integer
+      - name: group_id
+        in: query
+        description: 사용자를 추가할 그룹
+        required: true
+        schema:
+          type: integer
+      - name: owner_id
+        in: query
+        description: 사용자 검증을 위해 사용
+        required: true
+        schema:
+          type: integer
+      description: user_group를 생성합니다. <br> group의 owner만 user_group을 생성할 수 있습니다. <br>
+        사용자 검증을 위하여 owner_id를 추가로 받습니다.
+      responses:
+        '201':
+          description: create user_group
+  "/user_groups/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    delete:
+      summary: delete user_group
+      tags:
+      - user_group
+      parameters:
+      - name: owner_id
+        in: query
+        description: 사용자 검증을 위해 사용
+        required: true
+        schema:
+          type: integer
+      - name: group_id
+        in: query
+        description: 사용자 검증을 위해 사용
+        required: true
+        schema:
+          type: integer
+      description: user_group을 삭제합니다. <br> group의 owner만 user_group을 삭제할 수 있습니다. <br>
+        사용자 검증을 위하여 owner_id를 추가로 받습니다.
+      responses:
+        '204':
+          description: successful
+  "/users":
+    get:
+      summary: list users
+      tags:
+      - user
+      parameters:
+      - name: page
+        in: query
+        description: page
+        example: 1
+        required: false
+        schema:
+          type: string
+      description: user 리스트를 가져옵니다.
+      responses:
+        '200':
+          description: successful
+  "/users/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show user
+      tags:
+      - user
+      description: 개별 user을 조회합니다. my_album 타입의 playlist를 포함합니다.
+      responses:
+        '200':
+          description: successful
 servers:
 - url: http://localhost:3000
   variables:
@@ -489,7 +677,7 @@ components:
     group_object:
       type: object
       properties:
-        artist:
+        group:
           type: object
           properties:
             name:
@@ -500,7 +688,7 @@ components:
     playlist_object:
       type: object
       properties:
-        artist:
+        playlist:
           type: object
           properties:
             title:
@@ -511,7 +699,7 @@ components:
     playlist_track_object:
       type: object
       properties:
-        artist:
+        playlist_track:
           type: object
           properties:
             playlist_id:
@@ -521,6 +709,23 @@ components:
               type: integer
               example: 1
             user_id:
+              type: integer
+              example: 1
+      required:
+      - title
+    track_object:
+      type: object
+      properties:
+        track:
+          type: object
+          properties:
+            title:
+              type: string
+              example: 안녕(Hello)
+            artist_id:
+              type: integer
+              example: 1
+            album_id:
               type: integer
               example: 1
       required:

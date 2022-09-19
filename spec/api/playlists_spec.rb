@@ -16,7 +16,7 @@ RSpec.describe 'playlists', type: :request do
       tags 'playlist'
       parameter name: :playlist, in: :body, schema: { '$ref' => '#/components/schemas/playlist_object' }
       parameter name: :owner_id, in: :query, type: :integer, description: 'user_id or group_id', required: true
-      parameter name: :owner_type, in: :query, type: :integer, description: 'user or group', required: true
+      parameter name: :owner_type, in: :query, type: :string, description: 'user or group', required: true
       parameter name: :user_id, in: :query, type: :integer, description: '사용자 검증을 위해 사용', required: true
       description 'playlist를 생성합니다. title은 필수입니다. <br> owner(polymorphic. group or user)의 playlist를 생성합니다. <br> my_album 타입의 playlist만 생성할 수 있습니다.'
 
@@ -40,7 +40,7 @@ RSpec.describe 'playlists', type: :request do
       tags 'playlist'
       parameter name: :page, in: :query, type: :string, description: 'page', example: 1, required: false
       parameter name: :owner_id, in: :query, type: :integer, description: 'user_id or group_id', required: true
-      parameter name: :owner_type, in: :query, type: :integer, description: 'user or group', required: true
+      parameter name: :owner_type, in: :query, type: :string, description: 'user or group', required: true
       parameter name: :user_id, in: :query, type: :integer, description: '사용자 검증을 위해 사용', required: true
 
       description '나 혹은 내가 속한 그룹의 playlist를 조회합니다.'
@@ -80,7 +80,7 @@ RSpec.describe 'playlists', type: :request do
       description 'playlist를 수정합니다. title은 필수입니다. <br> owner(polymorphic. group or user)의 playlist를 수정합니다. <br> my_album 타입의 playlist만 수정할 수 있습니다.'
 
       parameter name: :owner_id, in: :query, type: :integer, description: 'user_id or group_id', required: true
-      parameter name: :owner_type, in: :query, type: :integer, description: 'user or group', required: true
+      parameter name: :owner_type, in: :query, type: :string, description: 'user or group', required: true
       parameter name: :user_id, in: :query, type: :integer, description: '사용자 검증을 위해 사용', required: true
       parameter name: :playlist, in: :body, schema: { '$ref' => '#/components/schemas/playlist_object' }
 
@@ -98,7 +98,7 @@ RSpec.describe 'playlists', type: :request do
     delete 'delete playlist' do
       tags 'playlist'
       parameter name: :owner_id, in: :query, type: :integer, description: 'user_id or group_id', required: true
-      parameter name: :owner_type, in: :query, type: :integer, description: 'user or group', required: true
+      parameter name: :owner_type, in: :query, type: :string, description: 'user or group', required: true
       parameter name: :user_id, in: :query, type: :integer, description: '사용자 검증을 위해 사용', required: true
 
       description 'playlist을 삭제합니다.'

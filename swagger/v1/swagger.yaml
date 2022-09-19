@@ -224,20 +224,20 @@ paths:
       tags:
       - playlist_track
       parameters:
-      - name: playlist_track
-        in: body
-        schema:
-          "$ref": "#/components/schemas/playlist_track_object"
-      - name: user_id
-        in: query
+      - name: Authorization
+        in: header
         type: integer
-        description: 사용자 검증을 위해 사용
+        description: 사용자 인증(user_id 입력)
         required: true
       - name: playlist_id
         in: query
         type: integer
-        description: 사용자 검증을 위해 사용
+        description: 사용자가 playlist에 대한 권한이 있나 확인
         required: true
+      - name: playlist_track
+        in: body
+        schema:
+          "$ref": "#/components/schemas/playlist_track_object"
       description: playlist_track를 생성합니다. <br> body의 user_id는 playlist_track을 생성한
         사람입니다. <br> 사용자 검증을 위하여 user_id와 playlist_id를 추가로 받습니다.
       responses:
@@ -255,15 +255,15 @@ paths:
       tags:
       - playlist_track
       parameters:
-      - name: user_id
-        in: query
+      - name: Authorization
+        in: header
         type: integer
-        description: 사용자 검증을 위해 사용
+        description: 사용자 인증(user_id 입력)
         required: true
       - name: playlist_id
         in: query
         type: integer
-        description: 사용자 검증을 위해 사용
+        description: 사용자가 playlist에 대한 권한이 있나 확인
         required: true
       description: playlist_track을 삭제합니다.
       responses:
@@ -291,6 +291,11 @@ paths:
       tags:
       - playlist
       parameters:
+      - name: Authorization
+        in: header
+        type: integer
+        description: 사용자 인증(user_id 입력)
+        required: true
       - name: playlist
         in: body
         schema:
@@ -305,13 +310,6 @@ paths:
         type: string
         description: user or group
         required: true
-      - name: user_id
-        in: query
-        type: integer
-        description: 사용자 검증을 위해 사용
-        required: true
-      description: playlist를 생성합니다. title은 필수입니다. <br> owner(polymorphic. group or
-        user)의 playlist를 생성합니다. <br> my_album 타입의 playlist만 생성할 수 있습니다.
       responses:
         '200':
           description: create playlist
@@ -321,6 +319,11 @@ paths:
       tags:
       - playlist
       parameters:
+      - name: Authorization
+        in: header
+        type: integer
+        description: 사용자 인증(user_id 입력)
+        required: true
       - name: page
         in: query
         type: string
@@ -336,11 +339,6 @@ paths:
         in: query
         type: string
         description: user or group
-        required: true
-      - name: user_id
-        in: query
-        type: integer
-        description: 사용자 검증을 위해 사용
         required: true
       description: 나 혹은 내가 속한 그룹의 playlist를 조회합니다.
       responses:
@@ -369,6 +367,11 @@ paths:
       description: playlist를 수정합니다. title은 필수입니다. <br> owner(polymorphic. group or
         user)의 playlist를 수정합니다. <br> my_album 타입의 playlist만 수정할 수 있습니다.
       parameters:
+      - name: Authorization
+        in: header
+        type: integer
+        description: 사용자 인증(user_id 입력)
+        required: true
       - name: owner_id
         in: query
         type: integer
@@ -378,11 +381,6 @@ paths:
         in: query
         type: string
         description: user or group
-        required: true
-      - name: user_id
-        in: query
-        type: integer
-        description: 사용자 검증을 위해 사용
         required: true
       - name: playlist
         in: body
@@ -406,10 +404,10 @@ paths:
         type: string
         description: user or group
         required: true
-      - name: user_id
-        in: query
+      - name: Authorization
+        in: header
         type: integer
-        description: 사용자 검증을 위해 사용
+        description: 사용자 인증(user_id 입력)
         required: true
       description: playlist을 삭제합니다.
       responses:

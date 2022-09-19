@@ -14,20 +14,19 @@ RSpec.describe 'playlists', type: :request do
 
     post 'create playlist' do
       tags 'playlist'
+      parameter name: :Authorization, in: :header, type: :integer, description: '사용자 인증(user_id 입력)', required: true
       parameter name: :playlist, in: :body, schema: { '$ref' => '#/components/schemas/playlist_object' }
       parameter name: :owner_id, in: :query, type: :integer, description: 'user_id or group_id', required: true
       parameter name: :owner_type, in: :query, type: :string, description: 'user or group', required: true
-      parameter name: :user_id, in: :query, type: :integer, description: '사용자 검증을 위해 사용', required: true
-      description 'playlist를 생성합니다. title은 필수입니다. <br> owner(polymorphic. group or user)의 playlist를 생성합니다. <br> my_album 타입의 playlist만 생성할 수 있습니다.'
 
       before do
         @user = FactoryBot.create(:user)
       end
       
       response 200, 'create playlist' do
-        let(:user_id) { @user.id }
+        let(:Authorization) { @user.id }
         let(:owner_id) { @user.id }
-        let(:owner_type) { "user" }        
+        let(:owner_type) { "user" }
         let(:playlist) { { title: 'playlist title' } }
         
         run_test!
@@ -38,10 +37,10 @@ RSpec.describe 'playlists', type: :request do
   path '/playlists/my_playlist' do
     get 'get my_playlists' do
       tags 'playlist'
+      parameter name: :Authorization, in: :header, type: :integer, description: '사용자 인증(user_id 입력)', required: true
       parameter name: :page, in: :query, type: :string, description: 'page', example: 1, required: false
       parameter name: :owner_id, in: :query, type: :integer, description: 'user_id or group_id', required: true
-      parameter name: :owner_type, in: :query, type: :string, description: 'user or group', required: true
-      parameter name: :user_id, in: :query, type: :integer, description: '사용자 검증을 위해 사용', required: true
+      parameter name: :owner_type, in: :query, type: :string, description: 'user or group', required: true      
 
       description '나 혹은 내가 속한 그룹의 playlist를 조회합니다.'
       
@@ -52,7 +51,7 @@ RSpec.describe 'playlists', type: :request do
       response(200, 'successful') do
         let(:owner_id) { @user.id }
         let(:owner_type) { "user" }
-        let(:user_id) { @user.id }
+        let(:Authorization) { @user.id }
         run_test!
       end
     end
@@ -79,16 +78,16 @@ RSpec.describe 'playlists', type: :request do
       tags 'playlist'
       description 'playlist를 수정합니다. title은 필수입니다. <br> owner(polymorphic. group or user)의 playlist를 수정합니다. <br> my_album 타입의 playlist만 수정할 수 있습니다.'
 
+      parameter name: :Authorization, in: :header, type: :integer, description: '사용자 인증(user_id 입력)', required: true
       parameter name: :owner_id, in: :query, type: :integer, description: 'user_id or group_id', required: true
       parameter name: :owner_type, in: :query, type: :string, description: 'user or group', required: true
-      parameter name: :user_id, in: :query, type: :integer, description: '사용자 검증을 위해 사용', required: true
       parameter name: :playlist, in: :body, schema: { '$ref' => '#/components/schemas/playlist_object' }
 
       response(200, 'successful') do
         let(:id) { @playlist.id }
         let(:owner_id) { @user.id }
         let(:owner_type) { "user" }
-        let(:user_id) { @user.id }
+        let(:Authorization) { @user.id }
         let(:playlist) { { title: 'playlist title' } }
 
         run_test!
@@ -99,14 +98,14 @@ RSpec.describe 'playlists', type: :request do
       tags 'playlist'
       parameter name: :owner_id, in: :query, type: :integer, description: 'user_id or group_id', required: true
       parameter name: :owner_type, in: :query, type: :string, description: 'user or group', required: true
-      parameter name: :user_id, in: :query, type: :integer, description: '사용자 검증을 위해 사용', required: true
+      parameter name: :Authorization, in: :header, type: :integer, description: '사용자 인증(user_id 입력)', required: true
 
       description 'playlist을 삭제합니다.'
       response(204, 'successful') do
         let(:id) { @playlist.id }
         let(:owner_id) { @user.id }
         let(:owner_type) { "user" }
-        let(:user_id) { @user.id }
+        let(:Authorization) { @user.id }
 
         run_test!
       end

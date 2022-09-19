@@ -34,7 +34,7 @@ RSpec.describe "Playlists", type: :request do
         it "creates a new playlist" do
           playlist_params = FactoryBot.attributes_for(:playlist)
           expect {
-            post playlists_path, params: { playlist: playlist_params, owner_type: "user", owner_id: @playlist.owner.id, user_id: @user.id }
+            post playlists_path, params: { playlist: playlist_params, owner_type: "user", owner_id: @playlist.owner.id }, headers: { Authorization: @user.id }
           }.to change(Playlist, :count).by(1)
         end
       end
@@ -43,14 +43,14 @@ RSpec.describe "Playlists", type: :request do
         it "does not create a new playlist" do
           playlist_params = FactoryBot.attributes_for(:playlist)          
           expect {
-            post playlists_path, params: { playlist: playlist_params, owner_type: "user", owner_id: nil, user_id: @user.id }
+            post playlists_path, params: { playlist: playlist_params, owner_type: "user", owner_id: nil }, headers: { Authorization: @user.id }
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
 
         it "raise KeyError exception" do
           playlist_params = FactoryBot.attributes_for(:playlist)          
           expect {
-            post playlists_path, params: { playlist: playlist_params, owner_type: nil, owner_id: @playlist.owner.id, user_id: @user.id }
+            post playlists_path, params: { playlist: playlist_params, owner_type: nil, owner_id: @playlist.owner.id }, headers: { Authorization: @user.id }
           }.to raise_error(KeyError)
         end  
       end
@@ -65,7 +65,7 @@ RSpec.describe "Playlists", type: :request do
 
     it "deletes a playlist" do
       expect {
-        delete playlist_path(id: @playlist.id, owner_type: "user", owner_id: @playlist.owner.id, user_id: @user.id)
+        delete playlist_path(id: @playlist.id, owner_type: "user", owner_id: @playlist.owner.id), headers: { Authorization: @user.id }
       }.to change(Playlist, :count).by(-1)
     end
   end
@@ -78,7 +78,7 @@ RSpec.describe "Playlists", type: :request do
 
     it "updates a playlist" do
       playlist_params = FactoryBot.attributes_for(:playlist, title: "new title")
-      patch playlist_path(@playlist.id), params: { playlist: playlist_params, owner_type: "user", owner_id: @playlist.owner.id, user_id: @user.id }
+      patch playlist_path(@playlist.id), params: { playlist: playlist_params, owner_type: "user", owner_id: @playlist.owner.id }, headers: { Authorization: @user.id }
 
       expect(@playlist.reload.title).to eq("new title")
     end

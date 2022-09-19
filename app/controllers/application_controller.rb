@@ -20,13 +20,5 @@ class ApplicationController < ActionController::API
 
   def rescue_invalid_record(e)
     render json: { message: e.record.errors.full_messages }, status: 422
-  end
-  
-  def authenticate_user object, user, &block
-    # 추후 auth 기능이 추가된 뒤 user를 current_user로 변경한다.
-    condition = block_given? ? yield : object.check_user(user)
-    unless condition
-      raise ApplicationController::Forbidden
-    end
-  end
+  end  
 end

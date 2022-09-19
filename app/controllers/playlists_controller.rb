@@ -1,10 +1,6 @@
 class PlaylistsController < ApplicationController
   before_action :load_owner, only: [:my_playlist, :create, :update, :destroy]
-  before_action :load_user, only: [:my_playlist, :create, :update, :destroy]
-  # TODO my_playlist와 create에 @owner에 대한 검증이 필요함. @owner == user 인지.
-  # before_action -> { authenticate_user(@owner, @user) }, only: [:my_playlist, :create]
   before_action :load_playlist, only: [:update, :destroy]
-  before_action -> { authenticate_user(@playlist, @user) }, only: [:update, :destroy]
 
   def index
     playlists = Playlist.my_album.page(params[:page]).per(10)
@@ -17,22 +13,25 @@ class PlaylistsController < ApplicationController
   end
 
   def my_playlist
+    authorize @owner, policy_class: PlaylistPolicy
     playlists = @owner.playlists.page(params[:page]).per(10)
     render json: PlaylistBlueprint.render(playlists, view: :with_owner)
   end
 
   def create
-    # owner can create only my_album type in this action.
+    authorize @owner, :my_playlist?, policy_class: PlaylistPolicy
     playlist = @owner.playlists.my_album.create(playlist_params)
     render json: PlaylistBlueprint.render(playlist, view: :with_owner)
   end
 
   def update
+    authorize @playlist
     @playlist.update(playlist_params)
     render json: PlaylistBlueprint.render(@playlist, view: :with_owner)
   end
 
   def destroy
+    authorize @playlist
     @playlist.destroy
     render json: { message: "successfully destroy object" }, status: 204
   end
@@ -43,10 +42,6 @@ class PlaylistsController < ApplicationController
     # owner가 존재하지 않다면 ActiveRecord::RecordNotFound.
     # exception 발생시 json return 함수 필요함.
     @owner = Playlist::PERMITTED_OWNER.fetch(params[:owner_type]&.to_sym).find(params[:owner_id])
-  end
-
-  def load_user
-    @user = User.find(params[:user_id])
   end
 
   def load_playlist

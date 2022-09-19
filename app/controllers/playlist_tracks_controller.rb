@@ -1,15 +1,15 @@
 class PlaylistTracksController < ApplicationController
   before_action :load_playlist
-  before_action :load_user
-  before_action -> { authenticate_user(@playlist, @user) }
 
   def create
+    authorize @playlist
     @playlist_track = PlaylistTrack.create(playlist_track_params)
     render status: :created
   end
 
 
   def destroy
+    authorize @playlist
     @playlist.playlist_tracks.find(params[:id]).destroy!
     render json: { message: "successfully destroy object" }, status: 204
   end
@@ -17,10 +17,6 @@ class PlaylistTracksController < ApplicationController
   private
   def load_playlist
     @playlist = Playlist.find(params[:playlist_id])
-  end
-
-  def load_user
-    @user = User.find(params[:user_id])
   end
   
   def playlist_track_params

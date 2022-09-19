@@ -33,7 +33,37 @@ RSpec.configure do |config|
             }
           }
         }
-      ]
+      ],
+      components: {
+        schemas: {
+          album_object: {
+            type: :object,
+            properties: {
+              album: {
+                type: :object,
+                properties: {
+                  title: { type: :string, example: "growing up" },
+                  artist_id: { type: :integer, example: 1 }            
+                }
+              }
+            },
+            required: [ 'title', 'artist_id' ]    
+          },
+          artist_object: {
+            type: :object,
+            properties: {
+              artist: {
+                type: :object,
+                properties: {
+                  name: { type: :string, example: "아이유" },
+                }
+              }
+            },
+            required: [ 'name' ]
+          },
+          
+        }
+      }
     }
   }
 

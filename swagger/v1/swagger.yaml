@@ -11,6 +11,8 @@ paths:
   "/albums":
     get:
       summary: list albums
+      tags:
+      - Album
       parameters:
       - name: page
         in: query
@@ -25,6 +27,8 @@ paths:
           description: successful
     post:
       summary: create album
+      tags:
+      - Album
       parameters: []
       description: 앨범을 생성합니다. artist_id와 title은 필수입니다.
       responses:
@@ -36,20 +40,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                album:
-                  type: object
-                  properties:
-                    title:
-                      type: string
-                      example: growing up
-                    artist_id:
-                      type: integer
-                      example: 1
-              required:
-              - title
-              - artist_id
+              "$ref": "#/components/schemas/album_object"
   "/albums/{id}":
     parameters:
     - name: id
@@ -60,12 +51,16 @@ paths:
         type: string
     get:
       summary: show album
+      tags:
+      - Album
       description: 개별 album을 조회합니다. artist와 track list를 포함합니다.
       responses:
         '200':
           description: successful
     put:
       summary: update album
+      tags:
+      - Album
       parameters: []
       responses:
         '200':
@@ -74,22 +69,80 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                album:
-                  type: object
-                  properties:
-                    title:
-                      type: string
-                      example: growing up
-                    artist_id:
-                      type: integer
-                      example: 1
-              required:
-              - title
-              - artist_id
+              "$ref": "#/components/schemas/album_object"
     delete:
       summary: delete album
+      tags:
+      - Album
+      responses:
+        '200':
+          description: successful
+  "/artists":
+    get:
+      summary: list artists
+      tags:
+      - Artist
+      parameters:
+      - name: page
+        in: query
+        description: page
+        example: 1
+        required: false
+        schema:
+          type: string
+      description: artist 리스트를 가져옵니다.
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create artist
+      tags:
+      - Artist
+      parameters: []
+      description: artist를 생성합니다. name은 필수입니다.
+      responses:
+        '200':
+          description: artist created
+        '422':
+          description: failed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/artist_object"
+  "/artists/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show artist
+      tags:
+      - Artist
+      description: 개별 artist을 조회합니다.
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update artist
+      tags:
+      - Artist
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/artist_object"
+    delete:
+      summary: delete artist
+      tags:
+      - Artist
       responses:
         '200':
           description: successful
@@ -98,3 +151,31 @@ servers:
   variables:
     defaultHost:
       default: http://localhost:3000
+components:
+  schemas:
+    album_object:
+      type: object
+      properties:
+        album:
+          type: object
+          properties:
+            title:
+              type: string
+              example: growing up
+            artist_id:
+              type: integer
+              example: 1
+      required:
+      - title
+      - artist_id
+    artist_object:
+      type: object
+      properties:
+        artist:
+          type: object
+          properties:
+            name:
+              type: string
+              example: 아이유
+      required:
+      - name

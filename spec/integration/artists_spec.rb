@@ -1,11 +1,11 @@
 require 'swagger_helper'
 
-RSpec.describe 'albums', type: :request do
-  path '/albums' do    
-    get 'list albums' do      
-      tags 'Album'
+RSpec.describe 'artists', type: :request do
+  path '/artists' do
+    get 'list artists' do
+      tags 'Artist'
       parameter name: 'page', in: :query, type: :string, description: 'page', example: 1, required: false
-      description 'album 리스트를 가져옵니다.'
+      description 'artist 리스트를 가져옵니다.'
       
       response(200, 'successful') do
         after do |example|
@@ -19,29 +19,29 @@ RSpec.describe 'albums', type: :request do
       end
     end
 
-    post 'create album' do
-      tags 'Album'
-      parameter name: :album, in: :body, schema: { '$ref' => '#/components/schemas/album_object' }
+    post 'create artist' do
+      tags 'Artist'
+      parameter name: :artist, in: :body, schema: { '$ref' => '#/components/schemas/artist_object' }
 
-      description '앨범을 생성합니다. artist_id와 title은 필수입니다.'
-      response 200, 'album created' do
-        let(:album) { { title: 'album title', artist_id: 1 } }
+      description 'artist를 생성합니다. name은 필수입니다.'
+      response 200, 'artist created' do
+        let(:artist) { { name: 'artist name' } }
         run_test!
       end
 
-      response 422, 'album failed' do
-        let(:album) { { title: 'album title' } }
+      response 422, 'failed' do
+        let(:artist) { { name: '' } }
         run_test!
       end
     end
   end
 
-  path '/albums/{id}' do
+  path '/artists/{id}' do
     parameter name: 'id', in: :path, type: :string, description: 'id'
 
-    get 'show album' do
-      tags 'Album'
-      description '개별 album을 조회합니다. artist와 track list를 포함합니다.'
+    get 'show artist' do
+      tags 'Artist'
+      description '개별 artist을 조회합니다.'
       response(200, 'successful') do
         let(:id) { '123' }
 
@@ -56,9 +56,9 @@ RSpec.describe 'albums', type: :request do
       end
     end
 
-    put 'update album' do
-      tags 'Album'
-      parameter name: :album, in: :body, schema: { '$ref' => '#/components/schemas/album_object' }
+    put 'update artist' do
+      tags 'Artist'
+      parameter name: :artist, in: :body, schema: { '$ref' => '#/components/schemas/artist_object' }
 
       response(200, 'successful') do
         let(:id) { '123' }
@@ -74,8 +74,8 @@ RSpec.describe 'albums', type: :request do
       end
     end
 
-    delete 'delete album' do
-      tags 'Album'
+    delete 'delete artist' do
+      tags 'Artist'
       response(200, 'successful') do
         let(:id) { '123' }
 

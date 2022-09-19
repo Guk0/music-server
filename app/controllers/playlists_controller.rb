@@ -3,12 +3,14 @@ class PlaylistsController < ApplicationController
   before_action :load_playlist, only: [:update, :destroy]
 
   def index
-    playlists = Playlist.my_album.page(params[:page]).per(10)
+    # TODO my_album 타입의 playlist filtering
+    playlists = Playlist.includes(:owner, owner: :owner).my_album.page(params[:page]).per(10)
     render json: PlaylistBlueprint.render(playlists, view: :with_owner)
   end
   
-  def show # tracks과 함께 보여줘야함.
-    playlist = Playlist.my_album.find(params[:id])
+  def show
+    playlist = Playlist.find(params[:id])    
+    authorize playlist if playlist.default?
     render json: PlaylistBlueprint.render(playlist, view: :detail)
   end
 

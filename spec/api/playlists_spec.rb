@@ -67,9 +67,11 @@ RSpec.describe 'playlists', type: :request do
 
     get 'show playlist' do
       tags 'playlist'
-      description '개별 playlist 리스트를 가져옵니다. my_album(내앨범) 타입의 playlist만 조회합니다. <br> 타인의 playlist를 조회할 수 있습니다.'
+      parameter name: :Authorization, in: :header, type: :integer, description: '사용자 인증(user_id 입력)', required: true
+      description '개별 playlist 리스트를 가져옵니다. <br> default(플레이리스트) 타입 조회시 사용자 인증을 요구합니다. <br> my_album(내 앨범) 타입은 요구하지 않습니다.'
       response(200, 'successful') do
         let(:id) { @playlist.id }
+        let(:Authorization) { @user.id }
         run_test!
       end
     end

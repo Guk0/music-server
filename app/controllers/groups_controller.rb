@@ -2,7 +2,7 @@ class GroupsController < ApplicationController
   before_action :load_group, only: [:update, :destroy]  
 
   def index
-    groups = Group.all.page(params[:page]).per(10)
+    groups = Group.includes(:owner).page(params[:page]).per(10)
     render json: GroupBlueprint.render(groups)
   end
 

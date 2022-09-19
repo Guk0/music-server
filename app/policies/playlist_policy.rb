@@ -8,6 +8,10 @@ class PlaylistPolicy < ApplicationPolicy
     end
   end
 
+  def show?
+    update?
+  end
+
   def create?
     update?
   end

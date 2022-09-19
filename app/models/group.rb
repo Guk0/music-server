@@ -13,10 +13,6 @@ class Group < ApplicationRecord
     playlists.default.create(title: "그룹 재생목록")
   end
 
-  def check_user user
-    owner_id == user.id
-  end
-
   def blueprint
     GroupBlueprint
   end

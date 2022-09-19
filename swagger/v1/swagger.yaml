@@ -324,7 +324,7 @@ paths:
         description: user or group
         required: true
         schema:
-          type: integer
+          type: string
       - name: user_id
         in: query
         description: 사용자 검증을 위해 사용
@@ -365,7 +365,7 @@ paths:
         description: user or group
         required: true
         schema:
-          type: integer
+          type: string
       - name: user_id
         in: query
         description: 사용자 검증을 위해 사용
@@ -411,7 +411,7 @@ paths:
         description: user or group
         required: true
         schema:
-          type: integer
+          type: string
       - name: user_id
         in: query
         description: 사용자 검증을 위해 사용
@@ -442,7 +442,7 @@ paths:
         description: user or group
         required: true
         schema:
-          type: integer
+          type: string
       - name: user_id
         in: query
         description: 사용자 검증을 위해 사용

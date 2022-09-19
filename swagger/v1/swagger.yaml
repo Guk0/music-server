@@ -166,7 +166,8 @@ paths:
       parameters:
       - name: user_id
         in: query
-        description: user_id
+        description: group의 소유자로 등록하기 위해 사용
+        required: true
         schema:
           type: integer
       description: group를 생성합니다. name은 필수입니다. <br> user_id를 받아 해당 user를 group의 owner로
@@ -205,7 +206,8 @@ paths:
       parameters:
       - name: user_id
         in: query
-        description: user_id
+        description: 사용자 검증을 위해 사용
+        required: true
         schema:
           type: integer
       responses:
@@ -223,7 +225,8 @@ paths:
       parameters:
       - name: user_id
         in: query
-        description: user_id
+        description: 사용자 검증을 위해 사용
+        required: true
         schema:
           type: integer
       description: group을 삭제합니다. group의 owner만 삭제할 수 있습니다.
@@ -267,7 +270,7 @@ paths:
           type: integer
       - name: user_id
         in: query
-        description: user_id
+        description: 사용자 검증을 위해 사용
         required: true
         schema:
           type: integer
@@ -308,7 +311,7 @@ paths:
           type: integer
       - name: user_id
         in: query
-        description: user_id
+        description: 사용자 검증을 위해 사용
         required: true
         schema:
           type: integer
@@ -354,7 +357,7 @@ paths:
           type: integer
       - name: user_id
         in: query
-        description: user_id
+        description: 사용자 검증을 위해 사용
         required: true
         schema:
           type: integer
@@ -385,7 +388,7 @@ paths:
           type: integer
       - name: user_id
         in: query
-        description: user_id
+        description: 사용자 검증을 위해 사용
         required: true
         schema:
           type: integer

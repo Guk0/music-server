@@ -86,7 +86,7 @@ RSpec.describe "Groups", type: :request do
       group_params = FactoryBot.attributes_for(:group, name: "new new name")
       patch group_path(@group.id), params: { group: group_params }
 
-      expect(response).to have_http_status(403)
+      expect(response).to have_http_status(401)
       expect(@group.reload.name).not_to eq("new new name")
     end
   end

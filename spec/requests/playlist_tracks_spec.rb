@@ -36,7 +36,6 @@ RSpec.describe "PlaylistTracks", type: :request do
           expect {
             post playlist_tracks_path, params: { playlist_track: params }, headers: { Authorization: invalid_user.id }
           }.to change(PlaylistTrack, :count).by(0)
-          
           expect(response).to have_http_status(403)
         end
       end 

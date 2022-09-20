@@ -15,7 +15,7 @@ RSpec.describe "PlaylistTracks", type: :request do
         it "creates a new playlist_track" do
           params = FactoryBot.attributes_for(:playlist_track, playlist_id: @playlist.id, track_id: @track.id, user_id: @user.id)
           expect {
-            post playlist_tracks_path, params: { playlist_track: params, playlist_id: @playlist.id }, headers: { Authorization: @user.id }
+            post playlist_tracks_path, params: { playlist_track: params }, headers: { Authorization: @user.id }
           }.to change(PlaylistTrack, :count).by(1)
         end
       end
@@ -24,7 +24,7 @@ RSpec.describe "PlaylistTracks", type: :request do
         it "does not creates a new playlist_track" do
           params = FactoryBot.attributes_for(:playlist_track, playlist_id: @playlist.id, track_id: nil, user_id: @user.id)
           expect {
-            post playlist_tracks_path, params: { playlist_track: params, playlist_id: @playlist.id }, headers: { Authorization: @user.id }
+            post playlist_tracks_path, params: { playlist_track: params }, headers: { Authorization: @user.id }
           }.to change(PlaylistTrack, :count).by(0)
         end
       end 
@@ -34,7 +34,7 @@ RSpec.describe "PlaylistTracks", type: :request do
           invalid_user = create(:user)
           params = FactoryBot.attributes_for(:playlist_track, playlist_id: @playlist.id, track_id: @track.id, user_id: invalid_user.id)
           expect {
-            post playlist_tracks_path, params: { playlist_track: params, playlist_id: @playlist.id }, headers: { Authorization: invalid_user.id }
+            post playlist_tracks_path, params: { playlist_track: params }, headers: { Authorization: invalid_user.id }
           }.to change(PlaylistTrack, :count).by(0)
           
           expect(response).to have_http_status(403)
@@ -54,7 +54,7 @@ RSpec.describe "PlaylistTracks", type: :request do
         it "creates a new playlist_track" do
           params = FactoryBot.attributes_for(:playlist_track, playlist_id: @playlist.id, track_id: @track.id, user_id: @user.id)
           expect {
-            post playlist_tracks_path, params: { playlist_track: params, playlist_id: @playlist.id }, headers: { Authorization: @user.id }
+            post playlist_tracks_path, params: { playlist_track: params }, headers: { Authorization: @user.id }
           }.to change(PlaylistTrack, :count).by(1)
         end
       end
@@ -63,7 +63,7 @@ RSpec.describe "PlaylistTracks", type: :request do
         it "does not creates a new playlist_track" do
           params = FactoryBot.attributes_for(:playlist_track, playlist_id: @playlist.id, track_id: nil, user_id: @user.id)
           expect {
-            post playlist_tracks_path, params: { playlist_track: params, playlist_id: @playlist.id }, headers: { Authorization: @user.id }
+            post playlist_tracks_path, params: { playlist_track: params }, headers: { Authorization: @user.id }
           }.to change(PlaylistTrack, :count).by(0)
         end
       end 
@@ -82,7 +82,7 @@ RSpec.describe "PlaylistTracks", type: :request do
         first_playlist_track = @playlist.playlist_tracks.first
         
         expect {
-          post playlist_tracks_path, params: { playlist_track: params, playlist_id: @playlist.id }, headers: { Authorization: @user.id }
+          post playlist_tracks_path, params: { playlist_track: params }, headers: { Authorization: @user.id }
         }.to change(PlaylistTrack, :count).by(0)
         
         expect(first_playlist_track).not_to eq(@playlist.playlist_tracks.first)

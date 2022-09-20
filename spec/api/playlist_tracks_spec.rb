@@ -26,7 +26,7 @@ RSpec.describe 'playlist_tracks', type: :request do
     post 'create playlist_track' do
       tags 'playlist_track'
       parameter name: :Authorization, in: :header, type: :integer, description: '사용자 인증(user_id 입력)', required: true
-      parameter name: :playlist_id, in: :query, type: :integer, description: '사용자가 playlist에 대한 권한이 있나 확인', required: true
+      # parameter name: :playlist_id, in: :query, type: :integer, description: '사용자가 playlist에 대한 권한이 있나 확인', required: true
       parameter name: :playlist_track, in: :body, schema: { '$ref' => '#/components/schemas/playlist_track_object' }      
       description 'playlist_track를 생성합니다. <br> body의 user_id는 playlist_track을 생성한 사람입니다. <br> 사용자 검증을 위하여 user_id와 playlist_id를 추가로 받습니다.'
 
@@ -39,7 +39,7 @@ RSpec.describe 'playlist_tracks', type: :request do
       response 201, 'create playlist_track' do
         let(:playlist_track) { { playlist_id: @playlist.id, user_id: @user.id, track_id: @track.id } }
         let(:Authorization) { @user.id }
-        let(:playlist_id) { @playlist.id }
+        # let(:playlist_id) { @playlist.id }
 
         run_test!
       end

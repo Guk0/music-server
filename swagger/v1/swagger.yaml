@@ -256,11 +256,6 @@ paths:
         type: integer
         description: 사용자 인증(user_id 입력)
         required: true
-      - name: playlist_id
-        in: query
-        type: integer
-        description: 사용자가 playlist에 대한 권한이 있나 확인
-        required: true
       - name: playlist_track
         in: body
         schema:

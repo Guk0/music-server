@@ -21,7 +21,7 @@ class PlaylistTracksController < ApplicationController
 
   private
   def load_playlist
-    @playlist = Playlist.find(params[:playlist_id])
+    @playlist = Playlist.find(params[:playlist_id] || params.dig(:playlist_track, :playlist_id))
   end
   
   def playlist_track_params
